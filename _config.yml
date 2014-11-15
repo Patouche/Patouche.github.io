@@ -1,0 +1,18 @@
+# Permalinks
+permalink:            pretty
+relative_permalinks:  true
+
+# Setup
+title:                Patouche
+paginate:             5
+baseurl:              /
+markdown:             kramdown
+highlighter:          pygments
+
+author:
+    name:             Patouche
+
+# Sass support
+sass:
+    sass_dir:         _sass
+    style:            :compressed

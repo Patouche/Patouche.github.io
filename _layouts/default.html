@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+{% include head.html %}
+
+<body>
+
+
+  <header class="masthead clearfix">
+    <div class="inner">
+      <h3  class="masthead-brand">
+        <a href="{{ site.baseurl }}" title="Home">{{ site.title }}</a>
+      </h3>
+    </div>
+  </header>
+
+  <main  class="container">
+    {{ content }}
+  </main>
+
+  {% include footer.html %}
+
+</body>
+</html>
