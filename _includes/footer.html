@@ -1,5 +1,14 @@
 <footer class="footer">
-  <small>
-    &copy; <time datetime="{{ site.time | date_to_xmlschema }}">{{ site.time | date: '%Y' }}</time>. Patouche Blog - Alpha
-  </small>
+    <small>
+        <time datetime="{{ site.time | date_to_xmlschema }}">{{ site.time | date: '%Y' }}</time>. {{ site.author.name }} - Alpha version
+        <div class="license-details">
+            <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" class="license-img">
+                <img alt="Licence Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" />
+            </a>
+            <div class="license-text">
+                Le contenu sur ce site est mis à disposition sous les termes de la license
+                <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Licence Creative Commons Attribution BY-NC-SA</a>.
+            </div>
+        </div>
+    </small>
 </footer>
