@@ -127,8 +127,8 @@ Fichiers trouvés durant la phase AfterClass : []
 {% endhighlight %}
 
 
-{% shiny warning %}
+<div class="alert alert-warning" role="alert">
 Attention, ces codes sont là pour servir d'exemple (ou pas) ! Dans vos tests, il faut bien sur ne pas faire "sysout" ;-) !!
-{% endshiny %}
+</div>
 
 Et bien sûr, happy coding !!
