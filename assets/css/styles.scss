@@ -5,47 +5,75 @@
 // Start variables
 $grey-color-light: #f8f8f8;
 $grey-color-dark: #e7e7e7;
+$p-tag-margins: 10px 0;
 
 // End variables
 
 
 @import "bootstrap/";
 
-header {
-    background-color: $grey-color-light;
-    border-bottom: $grey-color-dark 1px solid;
+body {
 
-    a.blog-name {
-        font-size: 2em;
-        display: inline-block;
-        padding: 10px 20px;
-    }
-}
+    // font-family: "PT Sans", "Helvetica Neue", Arial, sans-serif;
 
-blockquote {
-    font-size: 1.1em;
-}
+    header {
+        background-color: $grey-color-light;
+        border-bottom: $grey-color-dark 1px solid;
 
-main {
-    time {
-        display:inline-block;
-        font-style: italic;
-        margin-bottom: 10px;
-    }
-}
-
-footer {
-    text-align: center;
-
-    div.license-details {
-        width: 400px;
-        margin: 10px auto;
-        .license-img {
-            float: left;
-        }
-        .license-text {
-            margin-left: 100px;
-            text-align: left;
+        a.blog-name {
+            font-size: 2em;
+            display: inline-block;
+            padding: 10px 20px;
         }
     }
+
+    main {
+
+        font-size: 1.2em;
+
+        article.post {
+            padding-bottom: 1em;
+        }
+
+        p {
+            margin: 1.5em 0 0.7em 0;
+        }
+        blockquote p {
+            font-size: 1.1em;
+            margin: 0;
+        }
+
+        time {
+            display:inline-block;
+            font-style: italic;
+            margin-bottom: 10px;
+        }
+
+        aside {
+            ul.related-posts {
+                li {
+                    h3 {
+                        margin: 5px 0;
+                    }
+                }
+            }
+        }
+    }
+
+    footer {
+        text-align: center;
+
+        div.license-details {
+            width: 400px;
+            margin: 10px auto;
+            .license-img {
+                float: left;
+            }
+            .license-text {
+                margin-left: 100px;
+                text-align: left;
+            }
+        }
+    }
+
 }

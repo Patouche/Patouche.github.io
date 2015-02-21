@@ -13,7 +13,7 @@ includes: [_post/java,_post/linux,_post/others]
 
 # Blog section
 blog:
-    name:             "// TODO Patouche : Learn and share !!"
+    name:             "// happy coding"
 
 # Author section
 author:
