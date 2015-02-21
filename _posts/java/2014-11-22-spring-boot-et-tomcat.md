@@ -12,11 +12,7 @@ Pendant quelques temps, j'ai cherché à pouvoir bien mixer spring-boot, tomcat 
 * https://spring.io/guides/gs/spring-boot/
 * http://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#build-tool-plugins-maven-packaging
 
-Considérons que notre point de départ est une application spring boot déjà existante.
-
-La manipulation pour lancer une application spring-boot dans un tomcat n'a rien de très compliquée.
-
-Partons d'un pom.xml déjà existant :
+Considérons que notre point de départ est une application spring boot déjà existante. Partons d'un pom.xml déjà existant :
 
 {% highlight xml %}
 
@@ -118,6 +114,8 @@ Et maintenant, en quelque lignes, nous pouvons transformer notre application en 
 
 Et le tour est joué !!
 
-Attention tout de même. Vous pourrez rencontrez des problèmes avec des dépendences apportées par votre tomcat (par exemple, votre driver jdbc, l'api servlet, ...). Donc, soyez tout de même prudent quant au war que vous générez.
+Attention tout de même. Vous pourrez rencontrer des problèmes avec des dépendances apportées par votre tomcat (par exemple, votre driver jdbc, l'api servlet, ...). Donc, soyez tout de même prudent quant au war que vous générez.
 
-Dans tous les cas, pensez à bien exploser votre war généré pour vérifier ce qu'il contient et comment il a été packagé.
+Dans tous les cas, pensez à bien exploser votre war généré afin de vérifier ce qu'il contient et comment il a été packagé.
+
+Happy coding !!
