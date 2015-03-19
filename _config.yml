@@ -2,6 +2,9 @@
 permalink:            pretty
 relative_permalinks:  true
 
+# Plugins
+#gems: [jekyll-sitemap, sass, jekyll-remote-plantuml]
+
 # Setup
 title:                Patouche
 paginate:             5
@@ -15,9 +18,16 @@ includes: [_post/java,_post/linux,_post/others]
 blog:
     name:             "// happy coding"
 
-# Author section
+    # Author section
 author:
     name:             Patouche
+
+# Remote PlantUML
+plantuml:
+    binaries:         assets/images/plantuml/
+    type:             png
+    encode:           encode64
+    url:              http://www.plantuml.com/plantuml/{type}/{code}
 
 # Sass support
 sass:

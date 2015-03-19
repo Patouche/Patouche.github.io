@@ -16,6 +16,11 @@ body {
 
     // font-family: "PT Sans", "Helvetica Neue", Arial, sans-serif;
 
+    img.center {
+        margin: 0 auto;
+        display: block;
+    }
+
     header {
         background-color: $grey-color-light;
         border-bottom: $grey-color-dark 1px solid;
