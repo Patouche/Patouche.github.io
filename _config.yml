@@ -3,7 +3,7 @@ permalink:            pretty
 relative_permalinks:  true
 
 # Plugins
-#gems: [jekyll-sitemap, sass, jekyll-remote-plantuml]
+gems: [jekyll-sitemap, sass, jekyll-remote-plantuml]
 
 # Setup
 title:                Patouche
@@ -12,7 +12,7 @@ baseurl:              /
 markdown:             kramdown
 highlighter:          pygments
 
-includes: [_post/java,_post/linux,_post/others]
+includes: [_post/java,_post/linux,_post/others,images]
 
 # Blog section
 blog:
@@ -24,7 +24,7 @@ author:
 
 # Remote PlantUML
 plantuml:
-    binaries:         assets/images/plantuml/
+    assets:           plantuml-images/
     type:             png
     encode:           encode64
     url:              http://www.plantuml.com/plantuml/{type}/{code}

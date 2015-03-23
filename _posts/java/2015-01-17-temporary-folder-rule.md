@@ -127,8 +127,8 @@ Fichiers trouvés durant la phase AfterClass : []
 {% endhighlight %}
 
 
-<div class="alert alert-warning" role="alert">
 Attention, ces codes sont là pour servir d'exemple (ou pas) ! Dans vos tests, il faut bien sur ne pas faire "sysout" ;-) !!
-</div>
+{: .alert .alert-warning}
+{:role="alert"}
 
 Et bien sûr, happy coding !!
