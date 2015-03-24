@@ -38,96 +38,13 @@ Le principe d'enregistrement et de connection est en fait assez simple. Voici qu
 * L'enregistrement d'un nouvel utilisateur
 * La connection d'un utilisateur enregistré
 
-{% uml %}
 
-title Enregistrement - Dans une application
-
-actor User as "Bob"
-participant App as "Application"
-database DB as "Database"
-
-note right User
-    Comme Bob aime beaucoup votre application et Alice,
-    il a décidé de s'enregistrer sur votre application avec
-    le couple (identifiant = "Bob", mot de passe = "Alice")
-end note
-
-User -> App : Bob envoie un couple (identifiant, mot de passe) pour créer son compte\n[Bob/Alice]
-App -> DB : Recherche de l'utilisateur par identifiant fournit\n[Bob]
-DB -> App : La base retourne le nombre d'utilisateur "Bob" présent dans la base.
-
-note right App
-    En effet, on peut très bien se limiter au nombre d'utilisateur présent
-    au lieu de retourner directement toutes la ligne.
-end note
-
-alt Un utilisateur "Bob" est présent dans la base
-
-    App -> User : Un autre utilisateur est déjà enregistré avec l'identifiant "Bob"
-
-else Aucun utilisateur "Bob" dans la base
-
-    App -> App : Le mot de passe est hashé.\n[hash(Alice) = 3bc51....a3043]
-    App -> DB : Enregistrement dans la base le couple (identifiant, hash(mot de passe))\n[Bob/3bc51....a3043]
-    App -> User : L'utilisateur avec l'identifiant "Bob" a bien été créé
-
-end
-
-{% enduml %}{: .center }
+![Enregistrement]({{ site.url }}/assets/images/2015/03/application-registration-principle.png){: .center }
 
 Cela conclue la manière dont doit se passer l'enregistrement d'un nouvel utilisateur. L'étape de vérification de l'unicité de l'identifiant ne doit pas être négligée. En effet, nous verrons par la suite qu'il est necessaire pour la suite que l'utilisateur Bob ne soit enregistré qu'une seule fois. Dans une base de données SQL, cela doit se traduire par une contrainte d'unicité sur la colonne *identifiant* de votre table des utilisateurs.
 
-{% uml %}
 
-title Connection - Dans une application
-
-actor User as "Bob"
-participant App as "Application"
-database DB as "Database"
-
-note right User
-    Bob checher à se connecter à l'application.
-    Mais il n'est plus tout à fait sur du mot de passe utilisé.
-end note
-
-User -> App : L'utlisateur "Bob" demande à se connecter avec un mot de passe XXXX
-
-App -> DB : Recherche de l'utilisateur par l'identifiant fournit par l'utilisateur\n[Bob]
-DB -> App : Retourne la ligne de la table des utilisateurs filter par l'identifiant fourni\n[Bob]
-
-alt Il n'y a pas d'utilisateur "Bob" dans la base de données
-
-    App -> User : Il n'a pas été possible d'identifier "Bob"
-
-else Il y a un utilisateur "Bob" dans la base de données
-
-    note right App
-        En toute logique, selon le principe de connection précédent,
-        il ne peut y avoir au plus qu'un seul utilisateur "Bob" dans la base
-        de données. La contrainte d'unicité nous assure de cela.
-    end note
-
-    App -> App : Le mot de passe est hashé.\n[hash(XXXX) = ....]
-
-    alt hash(mot de passe) == hash base de données
-
-        App -> App : Création de la session utilisateur
-        App -> User : "Bob" est désormais identifié.
-
-    else dans tous les autres cas
-
-        note right App
-            En réalité, Bob a fournit un mauvais mot de passe.
-            Si son mot de passe avait été correcte, les hash auraient été identique.
-        end note
-
-        App -> User : Il n'a pas été possible d'identifier "Bob"
-
-    end
-
-end
-
-{% enduml %}{: .center }
+![Connection]({{ site.url }}/assets/images/2015/03/application-connection-principle.png){: .center }
 
 Voici donc le principe de connection d'un utilisateur à une application. Sur les schémas, la manière de procéder peut sembler évidente. Pourtant, quand on en discute avec d'autres personnes, il semblerait cela n'est pas *évident* pour tout le monde.
 
