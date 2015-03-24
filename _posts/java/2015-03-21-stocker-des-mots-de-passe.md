@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Stocker correctement des mots de passe.
+title: Stocker correctement des mots de passe
 category:
   - Java
   - Spring
@@ -131,31 +131,29 @@ end
 
 Voici donc le principe de connection d'un utilisateur à une application. Sur les schémas, la manière de procéder peut sembler évidente. Pourtant, quand on en discute avec d'autres personnes, il semblerait cela n'est pas *évident* pour tout le monde.
 
-Bien sûr, il faut être conscient que la fiabilité de cette méthode repose sur 2 choses :
-
-* La fiabilité de la fonction de hash.
-* Les compétences du développeur.
-
-### Et les méchants de l'histoire ??
-
-Bien sûr, quand il s'agit de sécurité, il faut toujours penser aux méchants de l'histoire.
-
 
 ### Les algos de hash de la JVM
 
+// TODO
 
-### Avec spring-security ?
+### Etre manichéen ? Aimer le poivre et sel !!
 
+// TODO
 
 ### The biggest breach !!
 
-Et bien en fait, la plus grosse faille est généralement l'interface chaise clavier ! Et oui, quand on se tente à vouloir faire de la sécurité, la plus grosse faille reste souvent la compétence et les connaissances du développeur en terme de sécurité.
+Bien sûr, il faut être conscient que la fiabilité de cette méthode repose sur 2 choses :
+
+* La fiabilité de l'algorithme de hash utilisé.
+* Les compétences du développeur.
+
+Et bien en effet, la plus grosse faille est généralement l'interface chaise clavier ! Et oui, quand on se tente à vouloir faire de la sécurité, les lacunes se situent souvent au niveau de la compétence et des connaissances du développeur en terme de sécurité.
 
 Voici donc une liste des choses auxquelles il faut bien faire attention quand on commence à faire ce genre de choses :
 
-* La fiabilité de l'algorithme de hash utilisé.
-* Ne pas avoir de logs tout pourri dans votre application.
 * Ne pas négliger vos utilisateurs et se dire *plus tard*.
+* Ne pas avoir de logs tout pourri dans votre application.
+* Toujours se poser des questions.
 
 Pour la fiabilité de l'algorithme de hash, on considère aujourd'hui le MD5 comme trop facile à casser car on y a découvert des collisions il y a désormais quelques temps. Donc, tourner vous plutôt vers les nouveux algorithmes existant tels que :
 
@@ -166,15 +164,61 @@ Pour la fiabilité de l'algorithme de hash, on considère aujourd'hui le MD5 com
 
 Pour une liste plus complète, voici un article de wikipedia pouvant peut-être vous aider : [Comparison of cryptographic hash functions](http://en.wikipedia.org/wiki/Comparison_of_cryptographic_hash_functions)
 
-De plus, attention, quand vous vous serez fixé sur une solution, il sera très difficile de changer votre algorithme en cours de route !! En effet, si vous souhaitez faire cela, vous devrez demandé à chacun de vos utilisateurs de réinitialiser leurs mots de passe et bizarrement, cela fait beaucoup d'heureux !
+De plus, attention, quand vous vous serez fixé sur une solution, il sera très difficile de changer votre algorithme en cours de route !! En effet, si vous souhaitez faire cela, vous devrez demandé à chacun de vos utilisateurs de réinitialiser leurs mots de passe et bizarrement, cela risque de faire assez peu d'heureux !
 
+Enfin, pour finir sur ce point, il est très important de gardez en tête quelques choses de primordials. Les logs...
+
+
+### Et les méchants de l'histoire ??
+
+Bien sûr, quand il s'agit de sécurité, il faut toujours penser aux méchants de l'histoire. Car , à quoi peut-elle bien avoir accès ce cher Oscar ?
+
+
+#### Un accès à la base ?
+
+// TODO
+
+#### Un accès à au serveur ?
+
+Bon, autant vous le dire clairement, dans ce cas là, il reste plus grand chose à faire.
+
+Brulez votre OS. Pleurer (mais non, faut pas ...). Reformater. Installer MacAffee (heu, non, ça aussi faut pas - :-) ). Changer vos mots de passe. Refaites votre config netfilter. Aller voir vos *gentils* gars du SI (parce que, si ça se trouve c'est votre faute). Rajouter `rkhunter`. Faites un audit de sécurité de votre appli. Liser vos /var/log/*.log. Essayer de comprendre ce qui s'est passé. Ce qui a été ouvert...
+
+{% highlight bash %}
+# Donne des stats sur un fichier, un dossier.
+stat /etc/passwd
+{% endhighlight%}
+
+Et encore... En êtes vous conscients que *Oscar is in the place* ?
+
+## Utilisation de spring-security
+
+Désolé, je n'ai pas encore écrit cette partie.
+
+TP (en cours d'écriture) : [Soat-secu-password](https://github.com/Patouche/soat-samples/tree/master/soat-parent-code/soat-secu-password)
+
+{% highlight bash %}
+git checkout tp-secu-1
+{% endhighlight %}
 
 ## Mot de passe à une application distante
 
-### Stocké dans les properties
+### Dans les properties
 
-### Stocké dans la base de données
+// TODO
 
-## Considération mathématiques
+{% highlight bash %}
+git checkout tp-secu-2
+{% endhighlight %}
+
+### Dans la base de données
+
+// TODO
+
+{% highlight bash %}
+git checkout tp-secu-3
+{% endhighlight %}
+
+## Quelques considérations mathématiques
 
 Parce que, oui, j'aime bien les maths... Et parce que j'ai l'impression de trop peu en faire désormais :-) !!!
