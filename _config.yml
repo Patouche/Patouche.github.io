@@ -1,7 +1,7 @@
 # Permalinks
 permalink:            pretty
 relative_permalinks:  true
-safe:                 true
+safe:                 false
 lsi:                  false
 
 # Plugins

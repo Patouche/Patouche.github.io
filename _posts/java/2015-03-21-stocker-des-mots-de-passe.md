@@ -49,9 +49,67 @@ Cela conclue la manière dont doit se passer l'enregistrement d'un nouvel utilis
 Voici donc le principe de connection d'un utilisateur à une application. Sur les schémas, la manière de procéder peut sembler évidente. Pourtant, quand on en discute avec d'autres personnes, il semblerait cela n'est pas *évident* pour tout le monde.
 
 
-### Les algos de hash de la JVM
+### Et en Java ?
 
-// TODO
+Pour hashé un mot de passe en Java, il faut utilisé la classe `java.security.MessageDigest`. Seulement, voilà, comment instancié un `MessageDigest` ? En effet, pour récupérer une instance de cette classe, il convient de connaitre les algorithmes connu de la JVM. Pour cela, vous avec 2 choix :
+
+* Soit chercher dans la [documentation Java](http://docs.oracle.com/javase/8/docs/technotes/guides/security/StandardNames.html#MessageDigest)
+* Récuperer la liste des algorithmes que connait la JVM.
+
+Pour récupérer la liste, des différents algorithmes, un petit *oneliner* Java 8 suffit :
+
+{% highlight java %}
+Arrays.stream(Security.getProviders()).forEach(
+        p -> p.getServices().stream().filter(s -> "MessageDigest".equals(s.getType()))
+                .map(Provider.Service::getAlgorithm)
+                .forEach(System.out::println)
+);
+{% endhighlight %}
+
+Une fois que vous avez la liste (qui finalement, ressemble très fortement à celle de la documentation), il vous faut créer une instance de `java.security.MessageDigest`. Pour réaliser cela, il suffit juste d'utiliser un `MessageDigest.getInstance(String)` en précisant l'algorithme que l'on souhaite utiliser derrière.
+
+Ainsi, pour hasher *toto* avec un *SHA-256*, voici un peu à quoi ressemblerait le code :
+
+{% highlight java %}
+try {
+    MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+    byte[] digest = messageDigest.digest("toto".getBytes(StandardCharsets.UTF_8));
+
+    // Si vous souhaitez avoir une représentation hexa :
+
+    // Avec Guava
+    LOGGER.info("Hash of 'toto' = '{}' using the Guava", BaseEncoding.base16().encode(digest));
+
+    // Avec les Apaches commons (commons-codec)
+    LOGGER.info("Hash of 'toto' = '{}' using the Apache Commons", Hex.encodeHex(digest));
+} catch (NoSuchAlgorithmException e) {
+    throw new RuntimeException("Error during hash generation : ", e);
+}
+{% endhighlight %}
+
+Et les quelques dépendances maven necesaire à la représentation Hexadécimal :
+{% highlight xml %}
+<!-- Guava -->
+<dependency>
+	<groupId>com.google.guava</groupId>
+	<artifactId>guava</artifactId>
+	<version>18.0</version>
+</dependency>
+
+<!-- Apache commons -->
+<dependency>
+	<groupId>commons-codec</groupId>
+	<artifactId>commons-codec</artifactId>
+	<version>1.10</version>
+</dependency>
+{% endhighlight %}
+
+Et voici un peu les logs de ce petit exemple :
+{% highlight bash %}
+[INFO] [f.p.s.HashTest] Hash of 'toto' = '31F7A65E315586AC198BD798B6629CE4903D0899476D5741A9F32E2E521B6A66' using the Guava
+[INFO] [f.p.s.HashTest] Hash of 'toto' = '31f7a65e315586ac198bd798b6629ce4903d0899476d5741a9f32e2e521b6a66' using the Apache Commons
+{% endhighlight %}
+
 
 ### Etre manichéen ? Aimer le poivre et sel !!
 
@@ -99,7 +157,7 @@ Bien sûr, quand il s'agit de sécurité, il faut toujours penser aux méchants 
 
 Bon, autant vous le dire clairement, dans ce cas là, il reste plus grand chose à faire.
 
-Brulez votre OS. Pleurer (mais non, faut pas ...). Reformater. Installer MacAffee (heu, non, ça aussi faut pas - :-) ). Changer vos mots de passe. Refaites votre config netfilter. Aller voir vos *gentils* gars du SI (parce que, si ça se trouve c'est votre faute). Rajouter `rkhunter`. Faites un audit de sécurité de votre appli. Liser vos /var/log/*.log. Essayer de comprendre ce qui s'est passé. Ce qui a été ouvert...
+Brulez votre OS. Pleurer (mais non, faut pas ...). Reformater. Installer MacAffee (heu, non, ça aussi faut pas - :-) ). Changer vos mots de passe. Refaites votre config netfilter. Aller voir vos *gentils* gars du SI (parce que, si ça se trouve c'est uniquement votre faute). Rajouter `rkhunter`. Faites un audit de sécurité de votre appli. Liser vos /var/log/*.log. Essayer de comprendre ce qui s'est passé. Ce qui a été ouvert...
 
 {% highlight bash %}
 # Donne des stats sur un fichier, un dossier.
