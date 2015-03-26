@@ -51,12 +51,12 @@ Voici donc le principe de connection d'un utilisateur à une application. Sur le
 
 ### Et en Java ?
 
-Pour hashé un mot de passe en Java, il faut utilisé la classe `java.security.MessageDigest`. Seulement, voilà, comment instancié un `MessageDigest` ? En effet, pour récupérer une instance de cette classe, il convient de connaitre les algorithmes connu de la JVM. Pour cela, vous avec 2 choix :
+Pour hasher un texte en Java, il faut utiliser la classe `java.security.MessageDigest`. Mais comment utiliser `MessageDigest` ? Et bien, il faut commencer par connaitre les algorithmes proposé par la JVM. Pour cela, vous avec 2 choix :
 
-* Soit chercher dans la [documentation Java](http://docs.oracle.com/javase/8/docs/technotes/guides/security/StandardNames.html#MessageDigest)
+* Chercher dans la [documentation Java](http://docs.oracle.com/javase/8/docs/technotes/guides/security/StandardNames.html#MessageDigest)
 * Récuperer la liste des algorithmes que connait la JVM.
 
-Pour récupérer la liste, des différents algorithmes, un petit *oneliner* Java 8 suffit :
+En fait, cette liste peut facilement être retrouvée avec un petit *oneliner* Java 8 :
 
 {% highlight java %}
 Arrays.stream(Security.getProviders()).forEach(
@@ -66,28 +66,51 @@ Arrays.stream(Security.getProviders()).forEach(
 );
 {% endhighlight %}
 
-Une fois que vous avez la liste (qui finalement, ressemble très fortement à celle de la documentation), il vous faut créer une instance de `java.security.MessageDigest`. Pour réaliser cela, il suffit juste d'utiliser un `MessageDigest.getInstance(String)` en précisant l'algorithme que l'on souhaite utiliser derrière.
+Comme on peut le constater, cette liste ressemble très fortement à celle de la documentation.
 
-Ainsi, pour hasher *toto* avec un *SHA-256*, voici un peu à quoi ressemblerait le code :
+Ensuite, la création d'une instance de `java.security.MessageDigest` se fait facilement en utlisant `MessageDigest.getInstance(String)` et en précisant l'algorithme que l'on souhaite utiliser derrière.
+
+Ainsi, pour hasher `toto` avec un *SHA-256*, voici un peu à quoi ressemblerait le code :
 
 {% highlight java %}
-try {
-    MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
-    byte[] digest = messageDigest.digest("toto".getBytes(StandardCharsets.UTF_8));
+package fr.patouche.soat;
 
-    // Si vous souhaitez avoir une représentation hexa :
+import java.nio.charset.StandardCharsets;
+import java.security.*;
+import java.util.Arrays;
 
-    // Avec Guava
-    LOGGER.info("Hash of 'toto' = '{}' using the Guava", BaseEncoding.base16().encode(digest));
+import com.google.common.io.BaseEncoding;
+import org.apache.commons.codec.binary.Hex;
+import org.junit.Test;
+import org.slf4j.*;
 
-    // Avec les Apaches commons (commons-codec)
-    LOGGER.info("Hash of 'toto' = '{}' using the Apache Commons", Hex.encodeHex(digest));
-} catch (NoSuchAlgorithmException e) {
-    throw new RuntimeException("Error during hash generation : ", e);
+public class HashTest {
+
+    /** The class logger. */
+    private static final Logger LOGGER = LoggerFactory.getLogger(HashTest.class);
+
+    @Test
+    public void hashToto() {
+        try {
+            MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+            byte[] digest = messageDigest.digest("toto".getBytes(StandardCharsets.UTF_8));
+
+            // Si vous souhaiter avoir une représentation hexa :
+
+            // Avec Guava
+            LOGGER.info("Hash of 'toto' = '{}' using the Guava", BaseEncoding.base16().encode(digest));
+
+            // Avec les Apaches commons (commons-codec)
+            LOGGER.info("Hash of 'toto' = '{}' using the Apache Commons", Hex.encodeHexString(digest));
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException("Error during hash generation : ", e);
+        }
+    }
 }
 {% endhighlight %}
 
-Et les quelques dépendances maven necesaire à la représentation Hexadécimal :
+Afin que l'exemple soit plus parlant, j'ai rajouté une représentation hexadécimal du tableau de bytes renvoyés par `MessageDigest.digest(byte[])`. Pour faire cela, voici les quelques dépendances maven necesaires à cette représentation :
+
 {% highlight xml %}
 <!-- Guava -->
 <dependency>
@@ -105,6 +128,7 @@ Et les quelques dépendances maven necesaire à la représentation Hexadécimal 
 {% endhighlight %}
 
 Et voici un peu les logs de ce petit exemple :
+
 {% highlight bash %}
 [INFO] [f.p.s.HashTest] Hash of 'toto' = '31F7A65E315586AC198BD798B6629CE4903D0899476D5741A9F32E2E521B6A66' using the Guava
 [INFO] [f.p.s.HashTest] Hash of 'toto' = '31f7a65e315586ac198bd798b6629ce4903d0899476d5741a9f32e2e521b6a66' using the Apache Commons
@@ -148,23 +172,38 @@ Enfin, pour finir sur ce point, il est très important de gardez en tête quelqu
 
 Bien sûr, quand il s'agit de sécurité, il faut toujours penser aux méchants de l'histoire. Car , à quoi peut-elle bien avoir accès ce cher Oscar ?
 
+Alors, là, il convient de différencier 2 choses. En effet, Oscar peut seulement avoir eu un accès à votre base de données et dans ce cas là, les dégâts sont peut-être limité. Mais Oscar peut très bien avoir eu un accès à votre serveur applicatif.
 
-#### Un accès à la base ?
+Dans les 2 cas, ne rester pas à rien faire. Votre bâteau prend l'eau ! Et après avoir écopé, il serait bon de colmater la brêche.
 
-// TODO
+#### Un accès au serveur de base de données :
 
-#### Un accès à au serveur ?
+Clairement, vous êtes dans le cas le moins pire. Oscar a eu finalement un accès assez *limité*. Bon, d'accord, il a ainsi pu récupérer la liste de vos utilisateurs ainsi que leur adresse mail. Mais si vous avez bien hashé les mots de passe de vos utilisateurs, voici ce qu'il a du voir :
+
+|----+-------+-------------------+------------------------------------------------------------------|
+| ID | LOGIN | EMAIL             | PASSWORD                                                         |
+|:--:|:-----:|:-----------------:|:----------------------------------------------------------------:|
+| 1  | Bob   | bob@example.com   | 2BD806C97F0E00AF1A1FC3328FA763A9269723C8DB8FAC4F93AF71DB186D6E90 |
+| 2  | Alice | alice@example.com | 81B637D8FCD2C6DA6359E6963113A1170DE795E4B725B84D1E0B4CFD9EC58CE9 |
+|====|=======|===================|==================================================================|
+{: .table .table-bordered}
+
+Donc, au moins, Oscar n'as pas pu récuperer les mots de passe de vos utilisateurs. Déjà une bonne chose pour vos utilisateurs.
+
+Bien sûr, cela ne devra pas vous dispenser de demander à vos utilisateurs de réinitiliaser leur mots de passe.
+
+#### Un accès au serveur applicatif :
 
 Bon, autant vous le dire clairement, dans ce cas là, il reste plus grand chose à faire.
 
-Brulez votre OS. Pleurer (mais non, faut pas ...). Reformater. Installer MacAffee (heu, non, ça aussi faut pas - :-) ). Changer vos mots de passe. Refaites votre config netfilter. Aller voir vos *gentils* gars du SI (parce que, si ça se trouve c'est uniquement votre faute). Rajouter `rkhunter`. Faites un audit de sécurité de votre appli. Liser vos /var/log/*.log. Essayer de comprendre ce qui s'est passé. Ce qui a été ouvert...
+Brulez votre OS. Pleurer (mais non, faut pas ...). Reformater. Installer MacAffee (heu, non, ça aussi faut pas - :-) ). Changer vos mots de passe. Refaites votre config `netfilter`. Aller voir vos gentils gars du SI (parce que, si ça se trouve c'est uniquement votre faute). Rajouter `rkhunter`. Faites un audit de sécurité de votre appli. Liser vos `/var/log/*.log`. Essayer de comprendre ce qui s'est passé, ce qui a été ouvert,... Bref, essayer de faire en sorte que cela ne se reproduise pas.
 
 {% highlight bash %}
 # Donne des stats sur un fichier, un dossier.
 stat /etc/passwd
 {% endhighlight%}
 
-Et encore... En êtes vous conscients que *Oscar is in the place* ?
+Et encore... En êtes vous conscients qu'*Oscar is in the place* ?
 
 ## Utilisation de spring-security
 
