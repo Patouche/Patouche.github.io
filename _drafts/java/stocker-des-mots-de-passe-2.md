@@ -40,8 +40,8 @@ La sécurité des données sur ces différents types de mots de passe est essent
 
 Dans tous les cas, il est important de ne pas oublier qu'aucun mot de passe n'est *incassable*. Bien sûr, certains le sont plus facilement que d'autres. En effet, par *brute force*, n'importe quel mot de passe peut tomber. Cependant, il faut comprendre que certains sont plus facile que d'autres à trouver. Un nom commun ou une chaine comme `azerty` peut tomber en quelques secondes alors que `Jak\{W%A1c~PR^o$QCn4k=M` mettra bien plus de temps ! Pour plus de détails sur ces types d'attaques, je vous invite à suivre les liens suivants :
 
-* brute force TODO find good link
-* dictionnaire TODO find good link
+* brute force TODO
+* dictionnaire TODO
 
 ### Sécurité des accès
 
@@ -80,13 +80,7 @@ Et encore... En êtes vous conscients qu'*Oscar is in the place* ?
 
 ### Principe d'une fonction de hachage
 
-// TODO sans trop saouler les gens
-
-* Taille des ensembles
-* L'idée d'injectivité
-* La non bijectivité
-* La fonction inverse
-* La rapidité
+// TODO
 
 ### Les algos de la JVM
 
@@ -152,19 +146,17 @@ Afin que l'exemple soit un peu plus parlant, j'y ai ajouté une représentation 
 {% highlight xml %}
 <!-- Guava -->
 <dependency>
-	<groupId>com.google.guava</groupId>
-	<artifactId>guava</artifactId>
-	<version>18.0</version>
+    <groupId>com.google.guava</groupId>
+    <artifactId>guava</artifactId>
+    <version>18.0</version>
 </dependency>
 <!-- Apache commons -->
 <dependency>
-	<groupId>commons-codec</groupId>
-	<artifactId>commons-codec</artifactId>
-	<version>1.10</version>
+    <groupId>commons-codec</groupId>
+    <artifactId>commons-codec</artifactId>
+    <version>1.10</version>
 </dependency>
 {% endhighlight %}
-
-Vous pourrez trouvez le code dans le test [SampleHashWithAlgoTest](https://github.com/Patouche/soat-samples)
 
 ### Les limites des hashs
 
@@ -211,7 +203,7 @@ from
 ;
 {% endhighlight %}
 
-Et bien, vous l'avez probablement compris mais Oscar connait désormais le mot de passe de Carol et d'Hugo !! Pour voir le résultat en pratique, il vous suffit de lancer le test suivant : [SampleLookupTable](https://github.com/Patouche/soat-samples)
+Et bien, vous l'avez probablement compris mais Oscar connait désormais le mot de passe de Carol et d'Hugo !!
 
 Il est à noté que, si vous aviez une politique de sécurité de mot de passe, vous n'auriez pas du accepter du tout des mots de passe aussi simple que *fleurs* ou *azerty*. En effet, il est tout à fait possible de demander à vos utilisateurs de n'utiliser que des mots de passe respectant les contraintes suivantes :
 
@@ -223,25 +215,42 @@ Il est à noté que, si vous aviez une politique de sécurité de mot de passe, 
 
 Les mots de passe comme *fleurs* ou *azerty* n'aurait pas pu être utilisé et la table précédente aurait ainsi été un peu plus difficile à construire...
 
-## Etre manichéen ? Aimer le poivre et sel !!
+### Etre manichéen ? Aimer le poivre et sel !!
 
-Comme vous l'avez vu dans le précédent exemple, les mots de passe hashés ne sont pas toujours suffisant à assurer une bonne sécurité de notre application car il semble tout de même assez simple de casser certains de mots de passe utilisateur. Pour contrer cela, il existe une solution : **le grain de sel**
+Comme vous l'avez vu dans le précédent exemple, les mots de passe hashés ne sont pas toujours suffisant à assurer une bonne sécurité de notre application car il semble tout de même assez simple de casser certains de mots de passe utilisateur.
 
-L'idée du grain de sel est de concaténer le mot de passe avec un autre mot. L'idée est donc d'avoir la chaine suivante pour générer les hashs stockées en base de données
+Pour contrer cela, il existe une solution : **le grain de sel**
 
-![Principe du grain de sel]({{site.url}}/assets/images/2015/03/salt-principle.png){: .center }
+L'idée du grain de sel est de concaténer le mot de passe avec un autre mot. L'idée est donc d'avoir la chaine suivante
 
-Cependant, attention !! Comme il y a le bon et le mauvais chasseur, il y a le bon et le mauvais saleur. Seulement, là, on peut facilement dire pourquoi un *salage* est *mauvais*.
+{% uml %}
 
-### Salage avec une constante
+title Utilisation d'un grain de sel
 
-Alors, voila, nous
+(*) -right-> Mot de passe
+note top
+    Le mot de passe est en clair
+end note
 
-Le principe du salage est mauvais.
+-right-> Password + Salt
+note top
+    Concaténation - en clair
+end note
 
-### Salage avec un aléa variable
+-right-> hash (Password + Salt)
+note top
+    Hash de la concanénation  
+end note
 
-// TODO
+-right-> (*)
+
+{% enduml %}
+
+
+
+Cependant, attention !! Comme il y a le bon et le mauvais chasseur, il y a le bon et le mauvais saleur. Seulement, là, on peut facilement dire pourquoi un *salage* est mauvais.
+
+
 
 ## Mot de passe à une application distante
 
