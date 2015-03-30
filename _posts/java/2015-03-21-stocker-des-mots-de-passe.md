@@ -51,28 +51,24 @@ Généralement, en cryptographie, l'attaquant s'appelle toujours Oscar. Cependan
 * Une personne n'aimant pas votre application
 * Un groupe de personne dont le but vous est inconnu (ou pas)
 
-La question essentielle à se poser alors est :
-
-A quoi donc Oscar a-t-il bien pu avoir accès
-{: .question }
+La question essentielle à se poser alors est : *A quoi donc Oscar a-t-il bien pu avoir accès ?*
 
 Il convient de différencier différents cas. Mais peu importe la situation, ne rester pas à ne rien faire. Votre bâteau prend l'eau ! Après avoir écopé, il serait bon de colmater la brêche afin que ce genre de chose ne se reproduise pas.
 
-#### Accès au serveur de base de données :
+|---------------------------+-------------------------------------------------------------------------------------------+-------------------------------|
+| Type d'accès              | Actions possibles                                                                         | Gravité (échelle de 0 à 100)  |
+|:--------------------------|:------------------------------------------------------------------------------------------|:------------------------------|
+| Base de données           | - Dump de base  | De 0 (votre appli ne l'utilise pas) <br />à 100 (vous avez des données bancaires) |
+|--------------------------------+-------------------------------------------------------------------------------------------+-------------------------------|
+| Serveurs applicatifs      | - Accès à des données confidentielles<br />- Accès à la base de données<br />- Possibilité d'injecter du code malicieux<br />- ...                                                                                                                     | 100 minimum                   |
+|---------------------------+-------------------------------------------------------------------------------------------+-------------------------------|
+| Système (user applicatif) | - Idem que précédement                                                                    | 100 minimum                   |
+|---------------------------+-------------------------------------------------------------------------------------------+-------------------------------|
+| Système (user root)       | Tout                                                                                      | 2012 (c'est la fin du monde ;-) )  |
+|===========================|===========================================================================================|===============================|
+{: .table .table-bordered}
 
-Clairement, vous êtes dans le cas le moins pire. Oscar n'a eu finalement qu'un accès assez *limité*. Bon, d'accord, il a ainsi pu récupérer l'intégralité de votre base. Cependant, les dégâts peuvent resté *relativement* limités en fonction de ce que votre base contenait.
-
-Par la suite, on se placera dans ce cas ci uniquement. En effet, dans les autres cas les possibilités de vous *faire du mal* pouvant être assez variées.
-
-#### Accès au serveur applicatif :
-
-Détailer ce qu'Oscar aurait pu faire serait assez long. Je ne vais pas rentrer dans les détails mais Oscar a pu faire plein de choses ! Voici quelques exemples parmi les pires de ce qu'Oscar aurait pu  faire :
-
-#### Accès au système :
-
-Bon, autant vous le dire clairement, dans ce cas là, il reste plus grand chose à faire.
-
-Brulez votre OS. Pleurer (mais non, faut pas ...). Reformater. Installer MacAffee (heu, non, ça aussi faut pas - :-) ). Changer vos mots de passe. Refaites votre config `netfilter`. Aller voir vos gentils gars du SI (parce que, si ça se trouve c'est uniquement votre faute). Rajouter `rkhunter`. Utiliser `stat` sur vos fichiers critiques. Faites un audit de sécurité de votre appli. Liser vos `/var/log/*.log`. Essayer de comprendre ce qui s'est passé, ce qui a été ouvert,... Bref, essayer de faire en sorte que cela ne se reproduise pas.
+En fonction du cas, n'hésitze pas à pleurer (mais non, faut pas ...). Tenter d'installer MacAffee (heu, non, ça aussi faut pas - :-) ). Changer vos mots de passe et demander à vos utilisateurs de le faire. Faites un audit de sécurité de votre appli. Liser vos vos access logs et tout ce qu'il y a dans `/var/log/*.log`. Essayer de comprendre ce qui s'est passé, ce qui a été ouvert,... Bref, essayer de faire en sorte que cela ne se reproduise pas.
 
 Et encore... En êtes vous conscients qu'*Oscar is in the place* ?
 
@@ -80,13 +76,17 @@ Et encore... En êtes vous conscients qu'*Oscar is in the place* ?
 
 ### Principe d'une fonction de hachage
 
-// TODO sans trop saouler les gens
+Une fonction de hachage a pour but de faire correspondre très rapidement à une donnée de départ une empreinte permettant d'identifier bien que partiellement mais rapidement la donnée de départ. Ainsi, une fonction de hachage `hach` fait correspondre à une données de départ `X` un résultat `hash(X)`. Il est alors possible d'établir quelques relations d'égalité (ou pas) à partir du résultat d'une fonction de hashage.
 
-* Taille des ensembles
-* L'idée d'injectivité
-* La non bijectivité
-* La fonction inverse
-* La rapidité
+Ainsi, pour tout `X` et `Y`, si `hash(X) != hash(Y)` alors, `X != Y`. Dans notre cas, nous pouvons considérer cela comme une injection au sens mathématiques, c'est à dire que si `hash(X) = hash(Y)` alors `X = Y`.
+
+Aujourd'hui, quand on parle de fonction de hachage, on parle souvent de *chat one* ou de *chat 256* (lire *deux cent cinquante six*). Non, ce n'est pas le premier (ou pire, le 256ième) d'une portée mais bien un algorithme utilisé en cryptographie.
+
+Cependant, cette approximation faite, bien que très pratique dans notre cas n'est pas vrai. En effet, si nous partons de l'ensemble des mots de passe pouvant existant (ensemble infini) et que nous lui appliquons un `sha1`, nous obtenons une chaine de caractère hexadécimale de 40 caratères (ensemble fini de taille `2^40 = 1099511627776`).
+
+Quand pour 2 chaines `X` et `Y` données, nous avons `hash(X) = hash(Y)` et `X != Y`, on parle alors de collision. Généralement, quand cela se produit, tout le monde commence à crier comme quoi il ne faut plus l'utiliser car une collision à été trouvé et que c'est la fin de tel ou tel algorithme. C'est en partie vrai mais à mon avis, le simple fait de crier sans trop comprendre pourquoi un algorithme n'est plus fiable me semble futile. Par contre, il me semble important de comprendre comment tout cela fonctionne et bien sûr de toujours utiliser la méthode la plus performante à notre disposition.
+
+Pour faire amende honorable, j'étais moi-même le master de la futilité il y a quelques années !!
 
 ### Les algos de la JVM
 
@@ -233,11 +233,49 @@ L'idée du grain de sel est de concaténer le mot de passe avec un autre mot. L'
 
 Cependant, attention !! Comme il y a le bon et le mauvais chasseur, il y a le bon et le mauvais saleur. Seulement, là, on peut facilement dire pourquoi un *salage* est *mauvais*.
 
-### Salage avec une constante
+### Salage avec une constante (courte)
 
-Alors, voila, nous
+Alors, voila, notre application fonctionne du tonnerre et nous avons un paquet d'utilisateurs qui l'utilise quotidiennement. Pour la sécurité de nos utilisateur, nous avons décidé décidé d'utiliser un grain de sel constant. Oscar (encore lui) à réussi à avoir un accès à la base mais il ignore tout du grain de sel utilisé !! Voici ce qu'il voit :
 
-Le principe du salage est mauvais.
+// TODO
+
+Après avoir tenté une attaque par *lookup table*, il n'a rien réussi à trouvé... Mais Oscar est malin et comme toujours, il a peut-être une solution afin de parvenir à ces fins maléfiques (la domination du monde évidement).
+
+Bon, dans la vie, à part le Java, Linux et l'Open Source, j'ai quelques autres dadas. La magie en est un ! A l'occasion, j'adore toucher mes cartes et réfléchir à comment ça marche et aussi à comment les gens pensent... Et bien sachez le, les gens ont tendance à penser *un peu pareil*. Et ça Oscar aussi le sait !
+
+Oscar utilise alors la requête suivante :
+
+{% highlight sql %}
+select
+    u.PASSWORD,
+    count(u.PASSWORD) as PWD_COUNT
+from
+    APP_USER as u
+group by
+	u.PASSWORD
+order by
+	PWD_COUNT
+;
+{% endhighlight %}
+
+Cette requête lui apporte le résultat suivant. Et là, c'est presque gagné...
+
+|------------------------------------------------------------------|-----------|
+| PASSWORD                                                         | PWD_COUNT |
+|:----------------------------------------------------------------:|:---------:|
+| TODO | 15 |
+| TODO | 14 |
+| TODO | 10 |
+| TODO | 9  |
+| 9F86D081884C7D659A2FEAA0C55AD015A3BF4F1B2B0B822CD15D6C15B0F00A08 | 9         |
+| ....                                                             | ...       |
+|==================================================================|===========|
+{: .table .table-bordered}
+
+Et pourquoi c'est *presque gagné* ??
+
+Et bien tout simplement parce que de nombreux utilisateurs vont utiliser le même mot de passe (et cela est encore pire si vous n'avez pas de politique de sécurité).
+
 
 ### Salage avec un aléa variable
 
