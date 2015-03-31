@@ -40,8 +40,8 @@ La sécurité des données sur ces différents types de mots de passe est essent
 
 Dans tous les cas, il est important de ne pas oublier qu'aucun mot de passe n'est *incassable*. Bien sûr, certains le sont plus facilement que d'autres. En effet, par *brute force*, n'importe quel mot de passe peut tomber. Cependant, il faut comprendre que certains sont plus facile que d'autres à trouver. Un nom commun ou une chaine comme `azerty` peut tomber en quelques secondes alors que `Jak\{W%A1c~PR^o$QCn4k=M` mettra bien plus de temps ! Pour plus de détails sur ces types d'attaques, je vous invite à suivre les liens suivants :
 
-* brute force TODO find good link
-* dictionnaire TODO find good link
+* [brute force](http://fr.wikipedia.org/wiki/Attaque_par_force_brute)
+* [dictionnaire](http://fr.wikipedia.org/wiki/Attaque_par_dictionnaire)
 
 ### Sécurité des accès
 
@@ -58,17 +58,17 @@ Il convient de différencier différents cas. Mais peu importe la situation, ne 
 |---------------------------+-------------------------------------------------------------------------------------------+-------------------------------|
 | Type d'accès              | Actions possibles                                                                         | Gravité (échelle de 0 à 100)  |
 |:--------------------------|:------------------------------------------------------------------------------------------|:------------------------------|
-| Base de données           | - Dump de base  | De 0 (votre appli ne l'utilise pas) <br />à 100 (vous avez des données bancaires) |
+| Base de données           | - Dump de base  | De 0 (votre appli ne l'utilise pas) <br />à 100 (vous stockez des données bancaires) |
 |--------------------------------+-------------------------------------------------------------------------------------------+-------------------------------|
-| Serveurs applicatifs      | - Accès à des données confidentielles<br />- Accès à la base de données<br />- Possibilité d'injecter du code malicieux<br />- ...                                                                                                                     | 100 minimum                   |
+| Serveurs applicatifs      | - Accès à des données confidentielles<br />- Accès à la base de données<br />- Possibilité d'injecter du code malicieux<br />- ...                                                                                                                     | 100 minimum |
 |---------------------------+-------------------------------------------------------------------------------------------+-------------------------------|
-| Système (user applicatif) | - Idem que précédement                                                                    | 100 minimum                   |
+| Système (user applicatif) | - Idem que précédement                                                                    | 100 minimum |
 |---------------------------+-------------------------------------------------------------------------------------------+-------------------------------|
-| Système (user root)       | Tout                                                                                      | 2012 (c'est la fin du monde ;-) )  |
+| Système (user root)       | Tout                                                                                      | 2012 (comprendre - c'est la fin du monde ... )  |
 |===========================|===========================================================================================|===============================|
 {: .table .table-bordered}
 
-En fonction du cas, n'hésitze pas à pleurer (mais non, faut pas ...). Tenter d'installer MacAffee (heu, non, ça aussi faut pas - :-) ). Changer vos mots de passe et demander à vos utilisateurs de le faire. Faites un audit de sécurité de votre appli. Liser vos vos access logs et tout ce qu'il y a dans `/var/log/*.log`. Essayer de comprendre ce qui s'est passé, ce qui a été ouvert,... Bref, essayer de faire en sorte que cela ne se reproduise pas.
+En fonction du cas, n'hésitez pas à pleurer (mais non, faut pas ...). Tenter d'installer MacAffee (heu, non, ça aussi faut pas :-) ). Changer vos mots de passe et demander à vos utilisateurs de le faire. Faites un audit de sécurité de votre appli. Liser vos vos access logs et tout ce qu'il y a dans `/var/log/*.log`. Essayer de comprendre ce qui s'est passé, ce qui a été ouvert,... Bref, essayer de faire en sorte que cela ne se reproduise pas.
 
 Et encore... En êtes vous conscients qu'*Oscar is in the place* ?
 
@@ -76,15 +76,17 @@ Et encore... En êtes vous conscients qu'*Oscar is in the place* ?
 
 ### Principe d'une fonction de hachage
 
-Une fonction de hachage a pour but de faire correspondre très rapidement à une donnée de départ une empreinte permettant d'identifier bien que partiellement mais rapidement la donnée de départ. Ainsi, une fonction de hachage `hach` fait correspondre à une données de départ `X` un résultat `hash(X)`. Il est alors possible d'établir quelques relations d'égalité (ou pas) à partir du résultat d'une fonction de hashage.
+Une fonction de hachage a pour but de faire correspondre très rapidement à une donnée de départ une empreinte permettant d'identifier partiellement la donnée de départ. Ainsi, une fonction de hachage `hash` fait correspondre à une données de départ `X` un résultat `hash(X)`. A partir du résultat d'une fonction de hashage, il est alors possible d'établir quelques relations d'égalité (ou pas) sur les données d'entrées.
 
-Ainsi, pour tout `X` et `Y`, si `hash(X) != hash(Y)` alors, `X != Y`. Dans notre cas, nous pouvons considérer cela comme une injection au sens mathématiques, c'est à dire que si `hash(X) = hash(Y)` alors `X = Y`.
+Ainsi, on obtient la relation suivante : pour tout `X` et `Y`, si `hash(X) != hash(Y)` alors, `X != Y`.
 
-Aujourd'hui, quand on parle de fonction de hachage, on parle souvent de *chat one* ou de *chat 256* (lire *deux cent cinquante six*). Non, ce n'est pas le premier (ou pire, le 256ième) d'une portée mais bien un algorithme utilisé en cryptographie.
+Aujourd'hui, quand on parle de fonction de hachage, on parle souvent de *chat one* ou de *chat 256* (lire *deux cent cinquante six*). Non, ce n'est pas le premier (ou pire, le 256ième) d'une portée mais bien des algorithmes utilisés en cryptographie.
 
-Cependant, cette approximation faite, bien que très pratique dans notre cas n'est pas vrai. En effet, si nous partons de l'ensemble des mots de passe pouvant existant (ensemble infini) et que nous lui appliquons un `sha1`, nous obtenons une chaine de caractère hexadécimale de 40 caratères (ensemble fini de taille `2^40 = 1099511627776`).
+Dans notre cas, nous pouvons considérer cela comme une injection au sens mathématiques, c'est à dire que si `hash(X) = hash(Y)` alors `X = Y`.
 
-Quand pour 2 chaines `X` et `Y` données, nous avons `hash(X) = hash(Y)` et `X != Y`, on parle alors de collision. Généralement, quand cela se produit, tout le monde commence à crier comme quoi il ne faut plus l'utiliser car une collision à été trouvé et que c'est la fin de tel ou tel algorithme. C'est en partie vrai mais à mon avis, le simple fait de crier sans trop comprendre pourquoi un algorithme n'est plus fiable me semble futile. Par contre, il me semble important de comprendre comment tout cela fonctionne et bien sûr de toujours utiliser la méthode la plus performante à notre disposition.
+Cependant, cette approximation faite, bien que très pratique dans notre cas n'est pas vrai. En effet, si nous partons de l'ensemble des mots de passe pouvant exister (ensemble infini) et que nous lui appliquons un `sha1`, nous obtenons une chaine de caractère hexadécimale de 40 caratères (ensemble fini de taille `2^40 = 1099511627776`).
+
+Quand, pour un algorithme données, 2 chaines `X` et `Y` différentes, nous avons `hash(X) = hash(Y)` et `X != Y`, on parle alors de collision. Généralement, quand cela se produit, tout le monde commence à crier comme quoi il ne faut plus l'utiliser l'algorithme en question *car une collision à été trouvée* et que c'est *la fin du monde* (ou presque). C'est en partie vrai mais à mon avis, le simple fait de crier sans trop comprendre pourquoi un algorithme n'est plus fiable me semble futile. Par contre, il me semble important de comprendre comment tout cela fonctionne et bien sûr de toujours utiliser la méthode la plus performante à notre disposition.
 
 Pour faire amende honorable, j'étais moi-même le master de la futilité il y a quelques années !!
 
@@ -182,7 +184,7 @@ Malgré votre politique de sécurité, Oscar a eu un accès complet à votre bas
 
 Au moins, Oscar ne peut pas lire en clair les mots de passe de vos utilisateurs. Déjà une bonne chose pour vos utilisateurs. Mais jusqu'où ce système est-il fiable ?
 
-En effet, il peut exister différents types d'attaque afin de tenter de trouver le mot de passe d'origne de Bob, Alice, Carol. Par exemple, en utilisant des *lookup table* ou *table de hachage*, on peut probablement trouver quelques mots de passe. En effet, imaginé que l'on s'amuse à coté de la table `APP_USER` de faire une table `LOOKUP_TABLE` comme suit :
+En effet, il peut exister différents types d'attaque afin de tenter de trouver le mot de passe d'origne de Bob, Alice, Carol. Par exemple, en utilisant des *lookup table* ou *table de hachage*, on peut probablement trouver quelques mots de passe. En effet, imaginez que l'on s'amuse à coté de la table `APP_USER` de créer une table `LOOKUP_TABLE` comme suit :
 
 |----------------------+------------------------------------------------------------------|
 | PASSWORD             | SHA_256                                                          |
@@ -196,7 +198,7 @@ En effet, il peut exister différents types d'attaque afin de tenter de trouver 
 |======================|==================================================================|
 {: .table .table-bordered}
 
-Dans notre cas, et pour ne pas avoir trop de données, j'ai utilisé une table de hachage remplie à l'aide d'un dictionnaire en *lowercase*. Normalement, une table de hachage n'est pas constitué à partir de ce type d'enregistrement mais le nombre de données à considérer étant considérable, cette solution est reste accepatable.
+Dans notre cas, et pour ne pas avoir trop de données, j'ai utilisé une table de hachage remplie à l'aide d'un dictionnaire en *lowercase*. Normalement, une table de hachage n'est pas constitué que à partir de ce type de données de départ mais le nombre de données à considérer étant considérable, cette solution reste accepatable dans notre cas.
 
 Que ferait donc la requête SQL suivante ?
 {: .question }
@@ -233,15 +235,15 @@ L'idée du grain de sel est de concaténer le mot de passe avec un autre mot. L'
 
 Cependant, attention !! Comme il y a le bon et le mauvais chasseur, il y a le bon et le mauvais saleur. Seulement, là, on peut facilement dire pourquoi un *salage* est *mauvais*.
 
-### Salage avec une constante (courte)
+### Salage avec une constante
 
-Alors, voila, notre application fonctionne du tonnerre et nous avons un paquet d'utilisateurs qui l'utilise quotidiennement. Pour la sécurité de nos utilisateur, nous avons décidé décidé d'utiliser un grain de sel constant. Oscar (encore lui) à réussi à avoir un accès à la base mais il ignore tout du grain de sel utilisé !! Voici ce qu'il voit :
+Alors, voila, notre application fonctionne du tonnerre et nous avons un bon paquet d'utilisateurs qui s'en servent quotidiennement. Pour la sécurité de nos utilisateurs, nous avons décidé décidé d'utiliser un grain de sel constant. Oscar (encore lui) à réussi à avoir un accès à la base mais il ignore tout du grain de sel utilisé. Voici ce qu'il voit :
 
 // TODO
 
-Après avoir tenté une attaque par *lookup table*, il n'a rien réussi à trouvé... Mais Oscar est malin et comme toujours, il a peut-être une solution afin de parvenir à ces fins maléfiques (la domination du monde évidement).
+Après avoir tenté une attaque par *lookup table*, il n'a rien réussi à trouvé... Mais Oscar est malin et comme toujours, il a peut-être une solution afin de parvenir à ces fins maléfiques (la domination du monde - évidement).
 
-Bon, dans la vie, à part le Java, Linux et l'Open Source, j'ai quelques autres dadas. La magie en est un ! A l'occasion, j'adore toucher mes cartes et réfléchir à comment ça marche et aussi à comment les gens pensent... Et bien sachez le, les gens ont tendance à penser *un peu pareil*. Et ça Oscar aussi le sait !
+Bon, dans la vie, à part le Java, Linux et l'Open Source, j'ai quelques autres dadas. La magie en est un ! A l'occasion, j'adore toucher mes cartes et réfléchir à comment ça marche, à comment les gens pensent, à ce qu'ils voient, ce sur quoi ils vont être concentré... Et bien sachez le, les gens ont tendance à penser *un peu pareil*. Et ça, Oscar le sait très bien !
 
 Oscar utilise alors la requête suivante :
 
@@ -251,10 +253,8 @@ select
     count(u.PASSWORD) as PWD_COUNT
 from
     APP_USER as u
-group by
-	u.PASSWORD
-order by
-	PWD_COUNT
+group by u.PASSWORD
+order by PWD_COUNT desc
 ;
 {% endhighlight %}
 
@@ -276,6 +276,7 @@ Et pourquoi c'est *presque gagné* ??
 
 Et bien tout simplement parce que de nombreux utilisateurs vont utiliser le même mot de passe (et cela est encore pire si vous n'avez pas de politique de sécurité).
 
+Finalement, je crois aussi être meilleur développeur que magicien !
 
 ### Salage avec un aléa variable
 
