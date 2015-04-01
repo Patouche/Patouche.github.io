@@ -166,7 +166,7 @@ Afin que l'exemple soit un peu plus parlant, j'y ai ajouté une représentation 
 </dependency>
 {% endhighlight %}
 
-Vous pourrez trouvez le code dans le test [SampleHashWithAlgoTest](https://github.com/Patouche/soat-samples)
+Vous pourrez trouvez le code dans le test [SampleRetrieveHashAlgorithmsTest](https://github.com/Patouche/soat-samples/blob/master/soat-parent-code/soat-password/src/test/java/fr/patouche/soat/password/SampleRetrieveHashAlgorithmsTest.java#L28)
 
 ### Les limites des hashs
 
@@ -213,7 +213,7 @@ from
 ;
 {% endhighlight %}
 
-Et bien, vous l'avez probablement compris mais Oscar connait désormais le mot de passe de Carol et d'Hugo !! Pour voir le résultat en pratique, il vous suffit de lancer le test suivant : [SampleLookupTable](https://github.com/Patouche/soat-samples)
+Et bien, vous l'avez probablement compris mais Oscar connait désormais le mot de passe de Carol et d'Hugo !! Pour voir le résultat en pratique, il vous suffit de lancer le test suivant : [SampleLookupTableTest](https://github.com/Patouche/soat-samples/blob/master/soat-parent-code/soat-password/src/test/java/fr/patouche/soat/password/SampleLookupTableTest.java#L42)
 
 Il est à noté que, si vous aviez une politique de sécurité de mot de passe, vous n'auriez pas du accepter du tout des mots de passe aussi simple que *fleurs* ou *azerty*. En effet, il est tout à fait possible de demander à vos utilisateurs de n'utiliser que des mots de passe respectant les contraintes suivantes :
 
