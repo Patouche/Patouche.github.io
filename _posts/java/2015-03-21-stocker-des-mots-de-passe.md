@@ -172,14 +172,14 @@ Vous pourrez trouvez le code dans le test [SampleRetrieveHashAlgorithmsTest](htt
 
 Malgré votre politique de sécurité, Oscar a eu un accès complet à votre base, à la liste de tous vos utilisateurs, à leur mots de passe ainsi que leur adresse mail. Si vous avez bien hashé les mots de passe de vos utilisateurs, voici ce qu'Oscar a pu voir :
 
-|----+-------+-------------------+------------------------------------------------------------------|
-| ID | LOGIN | EMAIL             | PASSWORD                                                         |
-|:--:|:-----:|:-----------------:|:----------------------------------------------------------------:|
-| 1  | bob   | bob@example.com   | 2BD806C97F0E00AF1A1FC3328FA763A9269723C8DB8FAC4F93AF71DB186D6E90 |
-| 2  | alice | alice@example.com | 81B637D8FCD2C6DA6359E6963113A1170DE795E4B725B84D1E0B4CFD9EC58CE9 |
-| 3  | carol | carol@example.com | F2D81A260DEA8A100DD517984E53C56A7523D96942A834B9CDC249BD4E8C7AA9 |
-| 4  | hugo  | hugo@example.com  | A23FAA7DFE648A785268264081AB85965FA3893109731F484EE42D8A8467ABB8 |
-|====|=======|===================|==================================================================|
+|-------+-------------------+------------------------------------------------------------------|
+| LOGIN | EMAIL             | PASSWORD                                                         |
+|:-----:|:-----------------:|:----------------------------------------------------------------:|
+| bob   | bob@example.com   | 2BD806C97F0E00AF1A1FC3328FA763A9269723C8DB8FAC4F93AF71DB186D6E90 |
+| alice | alice@example.com | 81B637D8FCD2C6DA6359E6963113A1170DE795E4B725B84D1E0B4CFD9EC58CE9 |
+| carol | carol@example.com | F2D81A260DEA8A100DD517984E53C56A7523D96942A834B9CDC249BD4E8C7AA9 |
+| hugo  | hugo@example.com  | A23FAA7DFE648A785268264081AB85965FA3893109731F484EE42D8A8467ABB8 |
+|=======|===================|==================================================================|
 {: .table .table-bordered}
 
 Au moins, Oscar ne peut pas lire en clair les mots de passe de vos utilisateurs. Déjà une bonne chose pour vos utilisateurs. Mais jusqu'où ce système est-il fiable ?
@@ -239,7 +239,16 @@ Cependant, attention !! Comme il y a le bon et le mauvais chasseur, il y a le bo
 
 Alors, voila, notre application fonctionne du tonnerre et nous avons un bon paquet d'utilisateurs qui s'en servent quotidiennement. Pour la sécurité de nos utilisateurs, nous avons décidé décidé d'utiliser un grain de sel constant. Oscar (encore lui) à réussi à avoir un accès à la base mais il ignore tout du grain de sel utilisé. Voici ce qu'il voit :
 
-// TODO
+|--------------|------------------------------------------------------------------|
+| LOGIN        | PASSWORD                                                         |
+|:------------:|:------------------------:|:----------------------------------------------------------------:|
+| emontgomery0 | 4822288F90D5ECD9ECBD6E3DD10D44E4A325EBC0D119376F7377BEF03620C157 |
+| wreed1       | 279AFCF447B3E1BEA7AD9A7F67F38905CD2638D995258C420BE4046C0D5476CA |
+| dmyers2      | B880C4063AF685A852165DD89DDD89F065DD9D4E0555EE319C9DE7F6804B8452 |
+| kfranklin3   | EC1483CF2A7BB2DCBAC6FCEE7F490C40779D465EC15F8FFF6054647F94D61B98 |
+| ...          | ...                                                              |
+|==============|==========================|==================================================================|
+{: .table .table-bordered}
 
 Après avoir tenté une attaque par *lookup table*, il n'a rien réussi à trouvé... Mais Oscar est malin et comme toujours, il a peut-être une solution afin de parvenir à ces fins maléfiques (la domination du monde - évidement).
 
@@ -263,20 +272,24 @@ Cette requête lui apporte le résultat suivant. Et là, c'est presque gagné...
 |------------------------------------------------------------------|-----------|
 | PASSWORD                                                         | PWD_COUNT |
 |:----------------------------------------------------------------:|:---------:|
-| TODO | 15 |
-| TODO | 14 |
-| TODO | 10 |
-| TODO | 9  |
-| 9F86D081884C7D659A2FEAA0C55AD015A3BF4F1B2B0B822CD15D6C15B0F00A08 | 9         |
+| 6524C5EEFEFDC4783C2EE6E256578AC7FC47F52354DB6BCEF49035F075414ECB | 10        |
+| C84ACB8E933C4A463533E66A1464CF4F5E28A95BF753221BCC7384C9CFA3ACFF | 10        |
+| 4822288F90D5ECD9ECBD6E3DD10D44E4A325EBC0D119376F7377BEF03620C157 | 10        |
+| 44D3C5D54A0430E71624032D1D208908088F12F0436841D3F59D5B6F02C3F850 | 10        |
+| 8AB6F129E8D0F956A4B54829000EA416024325B5B660EFB2EA6E63C661C17742 | 9         |
 | ....                                                             | ...       |
+| 533E822AD8CDF419573D67DF3D85C1CF44DA6A0370BD9626FE16643A275B7916 | 1         |
+| 80074E52AB90CB4CBBDB31474C4E08094F7084111815A97AA0151F8696F4C111 | 1         |
 |==================================================================|===========|
 {: .table .table-bordered}
 
 Et pourquoi c'est *presque gagné* ??
 
-Et bien tout simplement parce que de nombreux utilisateurs vont utiliser le même mot de passe (et cela est encore pire si vous n'avez pas de politique de sécurité).
+Et bien tout simplement parce que de nombreux utilisateurs vont utiliser le même mot de passe (et cela est encore pire si vous n'avez pas de politique de sécurité). Oscar n'a plus qu'à tenter les mots de passes les plus utilisés sur un compte dont le hash est retrouvé de nombreuse fois dans la base. Une simple attaque de type dictionnaires devraient fonctionner à merveille. Il aura non seulement découvert le mot de passe de ce compte mais également de tous les autres dont le hash est identiques.
 
-Finalement, je crois aussi être meilleur développeur que magicien !
+En fait, cela peut même être totalement gagné si votre salt est hardcodé quelque part et que Oscar a réussi à le trouver. Dans ce cas là, il ne lui reste plus qu'à se reconstruire une *lookup table* ou une *rainbow table*. Dans ce cas là, on est revenu au résultat précédent.
+
+Tout compte fait, je suis peut-être bien meilleur développeur que magicien !
 
 ### Salage avec un aléa variable
 
