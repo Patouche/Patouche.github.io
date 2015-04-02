@@ -8,9 +8,9 @@ category:
 ---
 
 
-Un jour, il y a quelques temps désormais, au cours d'une discussion nocturne avec d'autres personnes (on devait bien être une quizaine dont la moitié était des développeurs), j'ai été un peu surpris d'avoir été le seul à *taper du point sur la table* à la suite d'un mail. Pour que vous compreniez bien ma réaction, voici un extrait de la conversation :
+Un jour, il y a quelques temps maintenant, au cours d'une discussion nocturne avec d'autres personnes (on devait bien être une quizaine dont la moitié était des développeurs), j'ai été un peu surpris d'avoir été le seul à *taper du point sur la table* à la suite d'un mail. Pour que vous compreniez bien ma réaction, voici un extrait de la conversation :
 
-- *Mail* : Si ton mot de passe est inférieur à 8 caractères (ie : si ton mot de passe est "toto", le mot de passe que tu dois rentrer est toto#### - avec 4 caractères “#”)
+- *Mail* : Ton mot de passe est le même que sur \*\*\*\*\*\* complété de caractères # si ton mot de passe est inférieur à 8 caractères (ie : si ton mot de passe est "toto", le mot de passe que tu dois rentrer est toto#### - avec 4 caractères “#”)
 - *Patouche* : Put\*\*\*, c'est vraiment n'importe quoi ! Comment ça nos mots de passe sont en clair dans la base ??
 - *Personne 2* : Bah oui ! Heureusement qu'ils sont cryptés...
 - *Personne 1* : Mais non, ils sont pas en clair. Ils sont cryptés evidement.
@@ -19,9 +19,9 @@ Un jour, il y a quelques temps désormais, au cours d'une discussion nocturne av
 - *Developpeur 2* : Evidemment qu'ils sont pas en clair. C'est des algos de hashage derrière ! On sait ce que l'on fait...
 - *Patouche* : Heu... *(akward silence)*
 
-Stocker des mots de passe. On pourrait dire que c'est un sujet au combien classique. Et pourtant, des fois, il semblerait que peu de monde comprenne comment cela fonctionne. Dans ces cas là, un petit retour au base semble plus que nécessaire pour bien comprendre ce qui se passe, ce que l'on fait et ce que cela implique derrière !!
+Stocker des mots de passe. On pourrait dire que c'est un sujet au combien classique. Et pourtant, des fois, il semblerait que peu de monde comprenne comment cela fonctionne. Dans ces cas là, un petit retour aux bases semble plus que nécessaire pour bien comprendre ce qui se passe, ce que l'on fait et ce que cela implique derrière !!
 
-Pour information, par rapport à la discussion précédement citée, je n'étais pas totalement à coté de la plaque malgré l'heure tardive... Les mots de passe étaient bien stockés en clair (même pas chiffré - car oui, le bon terme est chiffré). Cependant, la curiosité d'en savoir plus m'a poussée à demander plus d'information à un ami qui travaille dans la sécurité (oui, ça fait très *Qui veut gagner des millions*). À cette occasion, j'ai découvert les [Rainbow table](http://fr.wikipedia.org/wiki/Rainbow_table) et le principe de chercher à casser soi-même ses propres mots de passe pour en vérifier la fiabilité.
+Pour information, par rapport à la discussion précédement citée, je n'étais pas totalement à coté de la plaque malgré l'heure tardive... Les mots de passe étaient bien stockés en clair (même pas chiffré - car oui, le bon terme est chiffré). Cependant, la curiosité d'en savoir plus m'a poussée à demander plus d'informations à un ami qui travaille dans la sécurité (oui, ça fait très *Qui veut gagner des millions*). À cette occasion, j'ai découvert les [Rainbow table](http://fr.wikipedia.org/wiki/Rainbow_table) et le principe de chercher à casser soi-même ses propres mots de passe pour en vérifier la fiabilité.
 
 ## Penser *Sécurité* ...
 
@@ -36,7 +36,7 @@ En effet, on peut distinguer 2 types de mots de passe :
 
 Pourquoi distinguer ces *types* de mot de passe ? Et bien tout simplement car il ne faut les traiter de la même manière. Dans le premier cas, personne mis à part l'utilisateur n'a à connaitre le mot de passe. Dans le second cas, c'est l'application (et les administateurs de celle-ci) qui se doit de connaitre le mot de passe.
 
-La sécurité des données sur ces différents types de mots de passe est essentielle. A aucun moment il ne faut la négliger. En fait, pour être tout à fait plus précis, il faut l'intégrer dès le départ d'un projet et y penser pendant toute la vie de celui-ci. Repousser l'échéance pour le faire à la fin et vous risquez malheureusement de le faire trop vite, d'en oublier des bouts ou pire, de ne pas le faire du tout.
+La sécurité des données sur ces différents types de mots de passe est essentielle. A aucun moment il ne faut la négliger. En fait, pour être plus précis, il faut l'intégrer dès le départ d'un projet et y penser pendant toute la vie de celui-ci. Repousser l'échéance pour le faire à la fin et vous risquez malheureusement de le faire trop vite, d'en oublier des bouts ou pire, de ne pas le faire du tout.
 
 Dans tous les cas, il est important de ne pas oublier qu'aucun mot de passe n'est *incassable*. Bien sûr, certains le sont plus facilement que d'autres. En effet, par *brute force*, n'importe quel mot de passe peut tomber. Cependant, il faut comprendre que certains sont plus facile que d'autres à trouver. Un nom commun ou une chaine comme `azerty` peut tomber en quelques secondes alors que `Jak\{W%A1c~PR^o$QCn4k=M` mettra bien plus de temps ! Pour plus de détails sur ces types d'attaques, je vous invite à suivre les liens suivants :
 
@@ -53,7 +53,7 @@ Généralement, en cryptographie, l'attaquant s'appelle toujours Oscar. Cependan
 
 La question essentielle à se poser alors est : *A quoi donc Oscar a-t-il bien pu avoir accès ?*
 
-Il convient de différencier différents cas. Mais peu importe la situation, ne rester pas à ne rien faire. Votre bâteau prend l'eau ! Après avoir écopé, il serait bon de colmater la brêche afin que ce genre de chose ne se reproduise pas.
+Il convient de différencier différents cas. Mais peu importe la situation, ne restez pas à ne rien faire. Votre bâteau prend l'eau ! Après avoir écopé, il serait bon de colmater la brêche afin que ce genre de chose ne se reproduise pas.
 
 |---------------------------+-------------------------------------------------------------------------------------------+-------------------------------|
 | Type d'accès              | Actions possibles                                                                         | Gravité (échelle de 0 à 100)  |
@@ -328,7 +328,7 @@ Voici donc une liste des choses auxquelles il faut bien faire attention quand on
 * Ne pas avoir de logs tout pourri dans votre application.
 * Toujours se poser des questions.
 
-Pour la fiabilité de l'algorithme de hash, on considère aujourd'hui le MD5 comme trop facile à casser car on y a découvert des collisions il y a désormais quelques temps. Donc, tourner vous plutôt vers les nouveux algorithmes existant tels que :
+Pour la fiabilité de l'algorithme de hash, on considère aujourd'hui le MD5 comme trop facile à casser car on y a découvert des collisions il y a désormais quelques temps. Donc, tournez vous plutôt vers les nouveux algorithmes existant tels que :
 
 * le SHA-2 : SHA-256 / SHA-512
 * le SHA-3 : La nouvelle version du SHA (*Secure Hash Algorithm*)
@@ -337,6 +337,6 @@ Pour la fiabilité de l'algorithme de hash, on considère aujourd'hui le MD5 com
 
 Pour une liste plus complète, voici un article de wikipedia pouvant peut-être vous aider : [Comparison of cryptographic hash functions](http://en.wikipedia.org/wiki/Comparison_of_cryptographic_hash_functions)
 
-De plus, attention, quand vous vous serez fixé sur une solution, il sera très difficile de changer votre algorithme en cours de route !! En effet, si vous souhaitez faire cela, vous devrez demandé à chacun de vos utilisateurs de réinitialiser leurs mots de passe et bizarrement, cela risque de faire assez peu d'heureux !
+De plus, attention, quand vous vous serez fixé sur une solution, il sera très difficile de changer votre algorithme en cours de route !! En effet, si vous souhaitez faire cela, vous devrez demander à chacun de vos utilisateurs de réinitialiser leurs mots de passe et bizarrement, cela risque de faire assez peu d'heureux !
 
 Enfin, pour finir sur ce point, il est très important de gardez en tête quelques choses de primordials : les logs...
