@@ -284,12 +284,19 @@ Un sel aléatoire, ne veut pas dire une connection aléatoire. Cela veut juste d
 La première fois, lorsque Bob s'inscrit sur votre application, il convient donc de générer un nouveu *grain de sel*. Pour cela, voici quelques méthodes en Java vous permettant de générer un grain de sel facilement :
 
 {% highlight java %}
+// Using UUID in Java
+UUID.randomUUID().toString();
 
+// Using Instant in Java 8 or DateTime for Joda-Time
+Instant.now().toString(); 
+
+// Using RandomStringUtils in Apache Commons
+RandomStringUtils.randomAlphanumeric(20);
 {% endhighlight %}
 
 Et oui, votre grain de sel est stocké en clair dans la base. Cependant, cela n'est absolument pas problématique. En effet, même en récupérant un accès à la base, Oscar n'a plus aucun intêret à constuire une *lookup table* afin de casser vos mots de passe. La seule chose qui lui reste est une attaque par *dictionnaire* ou par *brute force*. Si, en plus d'un seul aléatoire, vous avez adopté une politique de sécurité de mot de passe, l'attaque par *dictionnaire* ne fonctionnera pas... Seule l'attaque par *brute force* restera à la disposition d'Oscar !!
 
-
+Bien-sûr, il faut comprendre que cette méthode là vous permettra d'avoir un stockage sûr de des *mots de passe* de vos utilisateurs. Cependant, cela ne garantit en rien une *sécurité totale* sur votre application. Uniquement sur la manière dont sont stockés vos mots de passe !!
 
 ## La rainbow table
 
