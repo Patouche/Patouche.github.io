@@ -1,11 +1,11 @@
 # Permalinks
 permalink:            pretty
 relative_permalinks:  true
-safe:                 false
-lsi:                  false
+#safe:                 false
+#lsi:                  false
 
 # Plugins
-#gems: [jekyll-sitemap, sass, jekyll-remote-plantuml]
+gems: [jekyll-sitemap, sass, jekyll-remote-plantuml]
 
 # Setup
 title:                Patouche
@@ -20,13 +20,13 @@ includes: [_post/java,_post/linux,_post/others,images]
 blog:
     name:             "// happy coding"
 
-    # Author section
+# Author section
 author:
     name:             Patouche
 
 # Remote PlantUML
 plantuml:
-    assets:           plantuml-images/
+    assets:           images/plantuml-images/
     type:             png
     encode:           encode64
     url:              http://www.plantuml.com/plantuml/{type}/{code}

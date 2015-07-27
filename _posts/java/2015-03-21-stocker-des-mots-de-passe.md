@@ -3,7 +3,6 @@ layout: post
 title: Stocker correctement des mots de passe
 category:
   - Java
-  - Jasypt
   - Security
 ---
 
@@ -68,7 +67,7 @@ Il convient de différencier différents cas. Mais peu importe la situation, ne 
 |===========================|===========================================================================================|===============================|
 {: .table .table-bordered}
 
-En fonction du cas, n'hésitez pas à pleurer (mais non, faut pas ...). Tenter d'installer MacAffee (heu, non, ça aussi faut pas :-) ). Changer vos mots de passe et demander à vos utilisateurs de le faire. Faites un audit de sécurité de votre appli. Liser vos vos access logs et tout ce qu'il y a dans `/var/log/*.log`. Essayer de comprendre ce qui s'est passé, ce qui a été ouvert,... Bref, essayer de faire en sorte que cela ne se reproduise pas.
+En fonction du cas, n'hésitez pas à pleurer (mais non, faut pas ...). Tentez d'installer MacAffee (heu, non, ça aussi faut pas :-) ). Changez vos mots de passe et demandez à vos utilisateurs de le faire. Faites un audit de sécurité de votre appli. Lisez vos *access logs* et tout ce qu'il y a dans `/var/log/*.log`. Essayez de comprendre ce qui s'est passé, ce qui a été ouvert,... Bref, essayer de faire en sorte que cela ne se reproduise pas.
 
 Et encore... En êtes vous conscients qu'*Oscar is in the place* ?
 
@@ -84,9 +83,9 @@ Aujourd'hui, quand on parle de fonction de hachage, on parle souvent de *chat on
 
 Dans notre cas, nous pouvons considérer cela comme une injection au sens mathématiques, c'est à dire que si `hash(X) = hash(Y)` alors `X = Y`.
 
-Cependant, cette approximation faite, bien que très pratique dans notre cas n'est pas vrai. En effet, si nous partons de l'ensemble des mots de passe pouvant exister (ensemble infini) et que nous lui appliquons un `sha1`, nous obtenons une chaine de caractère hexadécimale de 40 caratères (ensemble fini de taille `2^40 = 1099511627776`).
+Cependant, cette approximation faite, bien que très pratique dans notre cas n'est pas vrai. En effet, si nous partons de l'ensemble des mots de passe pouvant exister (ensemble infini) et que nous lui appliquons un `sha1`, nous obtenons une chaine de caractère hexadécimale de 40 caratères (ensemble fini de taille `16^40 = 1461501637330902918203684832716283019655932542976`).
 
-Quand, pour un algorithme données, 2 chaines `X` et `Y` différentes, nous avons `hash(X) = hash(Y)` et `X != Y`, on parle alors de collision. Généralement, quand cela se produit, tout le monde commence à crier comme quoi il ne faut plus l'utiliser l'algorithme en question *car une collision à été trouvée* et que c'est *la fin du monde* (ou presque). C'est en partie vrai mais à mon avis, le simple fait de crier sans trop comprendre pourquoi un algorithme n'est plus fiable me semble futile. Par contre, il me semble important de comprendre comment tout cela fonctionne et bien sûr de toujours utiliser la méthode la plus performante à notre disposition.
+Quand, pour un algorithme données, 2 chaines `X` et `Y` différentes, nous avons `hash(X) = hash(Y)` et `X != Y`, on parle alors de *collision*. Généralement, quand cela se produit, tout le monde commence à crier comme quoi il ne faut plus l'utiliser l'algorithme en question *car une collision à été trouvée* et que c'est *la fin du monde* (ou presque). C'est en partie vrai mais à mon avis, le simple fait de crier sans trop comprendre pourquoi un algorithme n'est plus fiable me semble futile. Par contre, il me semble important de comprendre comment tout cela fonctionne et bien sûr de toujours utiliser la méthode la plus performante à notre disposition.
 
 Pour faire amende honorable, j'étais moi-même le master de la futilité il y a quelques années !!
 
@@ -115,17 +114,6 @@ Ensuite, la création d'une instance de `java.security.MessageDigest` se fait fa
 Ainsi, pour hasher `toto` avec un *SHA-256*, voici un peu à quoi ressemblerait le code :
 
 {% highlight java %}
-package fr.patouche.soat;
-
-import java.nio.charset.StandardCharsets;
-import java.security.*;
-import java.util.Arrays;
-
-import com.google.common.io.BaseEncoding;
-import org.apache.commons.codec.binary.Hex;
-import org.junit.Test;
-import org.slf4j.*;
-
 public class HashTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(HashTest.class);
@@ -215,15 +203,7 @@ from
 
 Et bien, vous l'avez probablement compris mais Oscar connait désormais le mot de passe de Carol et d'Hugo !! Pour voir le résultat en pratique, il vous suffit de lancer le test suivant : [SampleLookupTableTest](https://github.com/Patouche/soat-samples/blob/master/soat-parent-code/soat-password/src/test/java/fr/patouche/soat/password/SampleLookupTableTest.java#L42)
 
-Il est à noté que, si vous aviez une politique de sécurité de mot de passe, vous n'auriez pas du accepter du tout des mots de passe aussi simple que *fleurs* ou *azerty*. En effet, il est tout à fait possible de demander à vos utilisateurs de n'utiliser que des mots de passe respectant les contraintes suivantes :
-
-* Plus de 10 caratères
-* Au moins 1 majuscule
-* Au moins 1 minuscule
-* Au moins 2 chiffres
-* Au moins 2 caractères spéciaux
-
-Les mots de passe comme *fleurs* ou *azerty* n'aurait pas pu être utilisé et la table précédente aurait ainsi été un peu plus difficile à construire...
+Il est à noté que, si vous aviez une politique de sécurité de mot de passe, vous n'auriez pas du accepter du tout des mots de passe aussi simple que *fleurs* ou *azerty*.
 
 ## Etre manichéen ? Aimer le poivre et sel !!
 
@@ -240,13 +220,13 @@ Cependant, attention !! Comme il y a le bon et le mauvais chasseur, il y a le bo
 Alors, voila, notre application fonctionne du tonnerre et nous avons un bon paquet d'utilisateurs qui s'en servent quotidiennement. Pour la sécurité de nos utilisateurs, nous avons décidé décidé d'utiliser un grain de sel constant. Oscar (encore lui) à réussi à avoir un accès à la base mais il ignore tout du grain de sel utilisé. Voici ce qu'il voit :
 
 |--------------|------------------------------------------------------------------|
-| LOGIN        | PASSWORD                                                         |
+| LOGIN        | PASSWORD                                                         |
 |:------------:|:------------------------:|:----------------------------------------------------------------:|
-| emontgomery0 | 4822288F90D5ECD9ECBD6E3DD10D44E4A325EBC0D119376F7377BEF03620C157 |
-| wreed1       | 279AFCF447B3E1BEA7AD9A7F67F38905CD2638D995258C420BE4046C0D5476CA |
-| dmyers2      | B880C4063AF685A852165DD89DDD89F065DD9D4E0555EE319C9DE7F6804B8452 |
-| kfranklin3   | EC1483CF2A7BB2DCBAC6FCEE7F490C40779D465EC15F8FFF6054647F94D61B98 |
-| ...          | ...                                                              |
+| emontgomery0 | 4822288F90D5ECD9ECBD6E3DD10D44E4A325EBC0D119376F7377BEF03620C157 |
+| wreed1       | 279AFCF447B3E1BEA7AD9A7F67F38905CD2638D995258C420BE4046C0D5476CA |
+| dmyers2      | B880C4063AF685A852165DD89DDD89F065DD9D4E0555EE319C9DE7F6804B8452 |
+| kfranklin3   | EC1483CF2A7BB2DCBAC6FCEE7F490C40779D465EC15F8FFF6054647F94D61B98 |
+| ...          | ...                                                              |
 |==============|==========================|==================================================================|
 {: .table .table-bordered}
 
@@ -283,17 +263,63 @@ Cette requête lui apporte le résultat suivant. Et là, c'est presque gagné...
 |==================================================================|===========|
 {: .table .table-bordered}
 
-Et pourquoi c'est *presque gagné* ??
+> Et pourquoi c'est *presque gagné* ??
 
-Et bien tout simplement parce que de nombreux utilisateurs vont utiliser le même mot de passe (et cela est encore pire si vous n'avez pas de politique de sécurité). Oscar n'a plus qu'à tenter les mots de passes les plus utilisés sur un compte dont le hash est retrouvé de nombreuse fois dans la base. Une simple attaque de type dictionnaires devraient fonctionner à merveille. Il aura non seulement découvert le mot de passe de ce compte mais également de tous les autres dont le hash est identiques.
+Et bien tout simplement parce que de nombreux utilisateurs ont utilisé le même mot de passe (et cela est encore pire si vous n'avez pas de politique de sécurité sur vos mots de passe). Oscar n'a plus qu'à tenter les mots de passes les plus utilisés sur un compte dont le hash est retrouvé de nombreuse fois dans la base. Une simple attaque de type dictionnaire devraient fonctionner à merveille. Il aura non seulement découvert le mot de passe de ce compte mais également de tous les autres dont le hash est identiques.
 
-En fait, cela peut même être totalement gagné si votre salt est hardcodé quelque part et que Oscar a réussi à le trouver. Dans ce cas là, il ne lui reste plus qu'à se reconstruire une *lookup table* ou une *rainbow table*. Dans ce cas là, on est revenu au résultat précédent.
+Pour rappel, une attaque par dictionnaire revient à chercher le mot de passe par le test via une série de mots de passes issues d'un dictionnaire. Le fait que l'on retrouve plusieurs fois le même hash signifie que ces utilisateurs utilisent le même mot de passe.
 
-Tout compte fait, je suis peut-être bien meilleur développeur que magicien !
+Pour les compte dont la cardinalité est 1, il est malheureusement fort probable qu'une attaque de type dictionnaire soit peu efficace sur ces comptes... Bien sûr, une personne utilisant le mot de passe *onomasiologie* risque d'être la seule avec le dictionnaire à connaitre ce mot ;-) !
+
+En fait, cela peut même être totalement gagné si votre salt est hardcodé quelque part et que Oscar a réussi à le trouver. Dans ce cas là, il ne lui reste plus qu'à se reconstruire une *lookup table* ou une *rainbow table*. Dans ce cas là, on est revenu au résultat précédent ou les mots de passe des utilisateurs tomberont assez facilement...
 
 ### Salage avec un aléa variable
 
-// TODO
+Après avoir vu le mauvais saleur, il est temps de voir le bon saleur. Car le bon saleur est celui qui sale mais il le fait bien ! Et oui, quand le mauvais saleur utilise une constante, le bon saleur utilise un *grain de sel aléatoire* !!
+
+Un sel aléatoire, ne veut pas dire une connection aléatoire. Cela veut juste dire que, pour chaque mot de passe définit par un utilisateur, un grain de sel est généré, utilisé pour salé le mot de passe et enregistré dans la base de données comme le décrit le schéma suivant :
+
+![Principe du grain de sel aléatoire]({{site.url}}/assets/images/2015/03/random-salt-principle.png){: .center }
+
+La première fois, lorsque Bob s'inscrit sur votre application, il convient donc de générer un nouveu *grain de sel*. Pour cela, voici quelques méthodes en Java vous permettant de générer un grain de sel facilement :
+
+{% highlight java %}
+
+{% endhighlight %}
+
+Et oui, votre grain de sel est stocké en clair dans la base. Cependant, cela n'est absolument pas problématique. En effet, même en récupérant un accès à la base, Oscar n'a plus aucun intêret à constuire une *lookup table* afin de casser vos mots de passe. La seule chose qui lui reste est une attaque par *dictionnaire* ou par *brute force*. Si, en plus d'un seul aléatoire, vous avez adopté une politique de sécurité de mot de passe, l'attaque par *dictionnaire* ne fonctionnera pas... Seule l'attaque par *brute force* restera à la disposition d'Oscar !!
+
+
+
+## La rainbow table
+
+Enfin, il me semblait important de parler de ce qu'est une *rainbow table*. En effet, au cours de l'article, ce mot là est apparu plusieurs fois mais à chaque fois sans aucune explication de ce qu'est vraiment une *rainbow table*. Donc je tenais à aborder ce point. Cependant, il n'est pas simple de parler de *rainbow table* sans avoir vu ce qui précède et en particulier la *lookup table*.
+
+### La limite de lookup table
+
+Considérons donc qu'Oscar a trouvé le sel de la précédente application. A partir de ce sel il se construit une lookup table. Seulement voilà, peut-être l'avez vous compris mais il y a une certaine limite au *lookup_table*.
+
+> A bon ? Et quel est cette limite ??
+
+Et bien, c'est simple, cette limite est physique... C'est la taille mémoire !! Ainsi, grâce à une bonne base de données, la *lookup table* va permettre de trouver n'importe quel mot de passe en une fraction de seconde. Mais oui, le gros inconvénients d'une *lookup table* est la taille mémoire que celle ci occupe !! Par exemple, si nous voulons crééer une *lookup table* pour les mots de passe de moins de 8 caractères avec les mots de passe issus des caractères alpha numériques, quel sera la taille d'une *lookup table* ?
+
+Très franchement, quand je me suis posé cette question, je n'avais aucune idée de la manière de procéder afin de calculer la taille occupé en mémoire en fonction du type de base. Alors, comme je n'ai pas encore de licence pour une base *Oracle*, qu'est ce que cela pourrait donner *Mysql* ? 
+
+La *rainbow table* va ainsi permettre d'optimiser le compromis temps/mémoire.
+
+
+## Conclusion
+
+En effet, il est tout à fait possible de demander à vos utilisateurs de n'utiliser que des mots de passe respectant les contraintes suivantes :
+
+* Plus de 10 caratères
+* Au moins 1 majuscule
+* Au moins 1 minuscule
+* Au moins 2 chiffres
+* Au moins 2 caractères spéciaux
+
+Les mots de passe comme *fleurs* ou *azerty* n'aurait pas pu être utilisé et la table précédente aurait ainsi été un peu plus difficile à construire...
+
 
 ## Mot de passe à une application distante
 
@@ -301,9 +327,9 @@ Tout compte fait, je suis peut-être bien meilleur développeur que magicien !
 
 // TODO
 
-{% highlight bash %}
+~~~bash
 git checkout tp-secu-2
-{% endhighlight %}
+~~~
 
 ### Stockage dans une base de données
 

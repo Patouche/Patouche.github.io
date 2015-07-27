@@ -112,7 +112,26 @@ Et maintenant, en quelque lignes, nous pouvons transformer notre application en 
 
 {% endhighlight %}
 
-Et le tour est joué !!
+De plus, dans votre classe d'initialisation (celle contenant votre méthode *main*), il convient d'ajouter le code suivant :
+
+
+{% highlight java %}
+@SpringBootApplication
+public class Application extends SpringBootServletInitializer {
+
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+        return application.sources(Application.class);
+    }
+
+    public static void main(String[] args) throws Exception {
+        SpringApplication.run(Application.class, args);
+    }
+
+}
+{% endhighlight %}
+
+Et le tour est joué !! Pour plus d'information, voici une page qui pourrait vous aidez : [http://docs.spring.io/spring-boot/docs/current/reference/html/howto-traditional-deployment.html](http://docs.spring.io/spring-boot/docs/current/reference/html/howto-traditional-deployment.html)
 
 Attention tout de même. Vous pourrez rencontrer des problèmes avec des dépendances apportées par votre tomcat (par exemple, votre driver jdbc, l'api servlet, ...). Donc, soyez tout de même prudent quant au war que vous générez.
 
