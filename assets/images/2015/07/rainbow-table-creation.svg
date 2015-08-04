@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     height="979px" style="width:859px;height:979px;"
+     version="1.1" viewBox="0 0 859 979" width="859px" id="svg3004">
+    <metadata id="metadata3257">
+
+    </metadata>
+   
+    <defs id="defs3006">
+        <filter height="300%" id="f1" width="300%" x="-1" y="-1">
+            <feGaussianBlur result="blurOut" stdDeviation="2.0" id="feGaussianBlur3009"/>
+            <feColorMatrix in="blurOut" result="blurOut2" type="matrix"
+                           values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0" id="feColorMatrix3011"/>
+            <feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3" id="feOffset3013"/>
+            <feBlend in="SourceGraphic" in2="blurOut3" mode="normal" id="feBlend3015"/>
+        </filter>
+    </defs>
+
+    <g id="g3017">
+        <rect height="105.6641" style="stroke:#000000;stroke-width:2;fill:#ff0000;fill-opacity:0.4" width="349" x="235.5" y="147.5625"
+              id="rect3019" filter="url(#f1)" fill="#FFFFFF"/>
+        <rect height="75.3984" style="stroke:#000000;stroke-width:2;fill:#808000;fill-opacity:0.4" width="349" x="235.5" y="267.2266"
+              id="rect3021" filter="url(#f1)" fill="#FFFFFF"/>
+        <rect height="75.3984" style="stroke:#000000;stroke-width:2;fill:#ffff00;fill-opacity:0.4" width="349" x="235.5" y="356.625"
+              id="rect3023" filter="url(#f1)" fill="#FFFFFF"/>
+        <rect height="75.3984" style="stroke:#000000;stroke-width:2;fill:#00ff00;fill-opacity:0.4" width="349" x="235.5" y="446.0234"
+              id="rect3025" filter="url(#f1)" fill="#FFFFFF"/>
+        <rect height="75.3984" style="stroke:#000000;stroke-width:2;fill:#008080;fill-opacity:0.4" width="349" x="235.5" y="535.4219"
+              id="rect3027" filter="url(#f1)" fill="#FFFFFF"/>
+        <rect height="75.3984" style="stroke:#000000;stroke-width:2;fill:#00ffff;fill-opacity:0.4" width="349" x="235.5" y="624.8203"
+              id="rect3029" filter="url(#f1)" fill="#FFFFFF"/>
+        <rect height="75.3984" style="stroke:#000000;stroke-width:2;fill:#800080;fill-opacity:0.4" width="349" x="235.5" y="714.2188"
+              id="rect3031" filter="url(#f1)" fill="#FFFFFF"/>
+
+        <line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 5.0,5.0;" x1="31" x2="31" y1="86.2969"
+              y2="895.1484" id="line3033"/>
+        <line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 5.0,5.0;" x1="287.5" x2="287.5" y1="86.2969"
+              y2="895.1484" id="line3035"/>
+        <line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 5.0,5.0;" x1="547.5" x2="547.5" y1="86.2969"
+              y2="895.1484" id="line3037"/>
+        <line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 5.0,5.0;" x1="812" x2="812" y1="86.2969"
+              y2="895.1484" id="line3039"/>
+        <text font-size="14" lengthAdjust="spacingAndGlyphs" textLength="40" x="8" y="82.9951" id="text3041"
+              font-family="sans-serif" fill="#000000">Oscar</text>
+        <ellipse cx="31" cy="13" rx="8" ry="8" style="stroke: #A80036; stroke-width: 2.0;" id="ellipse3043"
+                 filter="url(#f1)" fill="#FEFECE"
+                 d="m 39,13 c 0,4.418278 -3.581722,8 -8,8 -4.418278,0 -8,-3.581722 -8,-8 0,-4.418278 3.581722,-8 8,-8 4.418278,0 8,3.581722 8,8 z"/>
+        <path d="M31,21 L31,48 M18,29 L44,29 M31,48 L18,63 M31,48 L44,63 " style="stroke: #A80036; stroke-width: 2.0;"
+              id="path3045" filter="url(#f1)" fill="#FEFECE"/>
+        <text font-size="14" lengthAdjust="spacingAndGlyphs" textLength="40" x="8" y="907.1436" id="text3047"
+              font-family="sans-serif" fill="#000000">Oscar</text>
+        <ellipse cx="31" cy="920.4453" rx="8" ry="8" style="stroke: #A80036; stroke-width: 2.0;" id="ellipse3049"
+                 filter="url(#f1)" fill="#FEFECE"
+                 d="m 39,920.44531 c 0,4.41828 -3.581722,8 -8,8 -4.418278,0 -8,-3.58172 -8,-8 0,-4.41828 3.581722,-8 8,-8 4.418278,0 8,3.58172 8,8 z"/>
+        <path d="M31,928.4453 L31,955.4453 M18,936.4453 L44,936.4453 M31,955.4453 L18,970.4453 M31,955.4453 L44,970.4453 "
+              style="stroke: #A80036; stroke-width: 2.0;" id="path3051" filter="url(#f1)" fill="#FEFECE"/>
+        <rect height="30.2969" style="stroke: #A80036; stroke-width: 1.5;" width="81" x="245.5" y="51" id="rect3053"
+              filter="url(#f1)" fill="#FEFECE"/>
+        <text font-size="14" lengthAdjust="spacingAndGlyphs" textLength="67" x="252.5" y="70.9951" id="text3055"
+              font-family="sans-serif" fill="#000000">Password</text>
+        <rect height="30.2969" style="stroke: #A80036; stroke-width: 1.5;" width="81" x="245.5" y="894.1484"
+              id="rect3057" filter="url(#f1)" fill="#FEFECE"/>
+        <text font-size="14" lengthAdjust="spacingAndGlyphs" textLength="67" x="252.5" y="914.1436" id="text3059"
+              font-family="sans-serif" fill="#000000">Password</text>
+        <rect height="30.2969" style="stroke: #A80036; stroke-width: 1.5;" width="49" x="521.5" y="51" id="rect3061"
+              filter="url(#f1)" fill="#FEFECE"/>
+        <text font-size="14" lengthAdjust="spacingAndGlyphs" textLength="35" x="528.5" y="70.9951" id="text3063"
+              font-family="sans-serif" fill="#000000">Hash</text>
+        <rect height="30.2969" style="stroke: #A80036; stroke-width: 1.5;" width="49" x="521.5" y="894.1484"
+              id="rect3065" filter="url(#f1)" fill="#FEFECE"/>
+        <text font-size="14" lengthAdjust="spacingAndGlyphs" textLength="35" x="528.5" y="914.1436" id="text3067"
+              font-family="sans-serif" fill="#000000">Hash</text>
+        <rect height="30.2969" style="stroke: #A80036; stroke-width: 1.5;" width="80" x="770" y="51" id="rect3069"
+              filter="url(#f1)" fill="#FEFECE"/>
+        <text font-size="14" lengthAdjust="spacingAndGlyphs" textLength="66" x="777" y="70.9951" id="text3071"
+              font-family="sans-serif" fill="#000000">Database</text>
+        <rect height="30.2969" style="stroke: #A80036; stroke-width: 1.5;" width="80" x="770" y="894.1484" id="rect3073"
+              filter="url(#f1)" fill="#FEFECE"/>
+        <text font-size="14" lengthAdjust="spacingAndGlyphs" textLength="66" x="777" y="914.1436" id="text3075"
+              font-family="sans-serif" fill="#000000">Database</text>
+        <polygon points="276,128.2969,286,132.2969,276,136.2969,280,132.2969"
+                 style="stroke: #A80036; stroke-width: 1.0;" id="polygon3077" fill="#A80036"/>
+        <line style="stroke: #A80036; stroke-width: 1.0;" x1="31" x2="282" y1="132.2969" y2="132.2969" id="line3079"/>
+        <text font-size="13" lengthAdjust="spacingAndGlyphs" textLength="233" x="38" y="112.3638" id="text3081"
+              font-family="sans-serif" fill="#000000">Définie les mots de passe d'entrées.</text>
+        <text font-size="13" lengthAdjust="spacingAndGlyphs" textLength="141" x="70.173706" y="127.4966" id="text3083"
+              style="font-size:13px;fill:#000000;font-family:sans-serif">Par exemple : '0CW2if'</text>
+        <rect height="105.6641" style="stroke: #000000; stroke-width: 2.0;" width="349" x="235.5" y="147.5625"
+              id="rect3085" fill="none"/>
+        <polygon points="235.5,147.5625,356.5,147.5625,356.5,154.5625,346.5,164.5625,235.5,164.5625,235.5,147.5625"
+                 style="stroke: #000000; stroke-width: 2.0;" id="polygon3087" fill="#EEEEEE"/>
+        <text font-size="13" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="76" x="250.5" y="160.6294"
+              id="text3089" font-family="sans-serif" fill="#000000">Iteration 1</text>
+        <polygon points="536,196.6953,546,200.6953,536,204.6953,540,200.6953"
+                 style="stroke: #A80036; stroke-width: 1.0;" id="polygon3091" fill="#A80036"/>
+        <line style="stroke: #A80036; stroke-width: 1.0;" x1="288" x2="542" y1="200.6953" y2="200.6953" id="line3093"/>
+        <text font-size="13" lengthAdjust="spacingAndGlyphs" textLength="145" x="295" y="180.76221" id="text3095"
+              style="font-size:13px;fill:#000000;font-family:sans-serif">Hash du mot de passe</text>
+        <text font-size="13" lengthAdjust="spacingAndGlyphs" textLength="193" x="295" y="195.895" id="text3097"
+              font-family="sans-serif" fill="#000000">[hash('0CW2if') = 'D63F8F9...']</text>
+        <polygon points="299,240.9609,289,244.9609,299,248.9609,295,244.9609"
+                 style="stroke: #A80036; stroke-width: 1.0;" id="polygon3099" fill="#A80036"/>
+        <line style="stroke: #A80036; stroke-width: 1.0;" x1="293" x2="547" y1="244.9609" y2="244.9609" id="line3101"/>
+        <text font-size="13" lengthAdjust="spacingAndGlyphs" textLength="236" x="300" y="225.0278" id="text3103"
+              style="font-size:13px;fill:#000000;font-family:sans-serif">Création d'un nouveau mot de passe</text>
+        <text font-size="13" lengthAdjust="spacingAndGlyphs" textLength="210" x="305" y="240.1606" id="text3105"
+              font-family="sans-serif" fill="#000000">[rainbow('D63F8F9...') = 'id1nav']</text>
+        <rect height="75.3984" style="stroke: #000000; stroke-width: 2.0;" width="349" x="235.5" y="267.2266"
+              id="rect3107" fill="none"/>
+        <polygon points="235.5,267.2266,356.5,267.2266,356.5,274.2266,346.5,284.2266,235.5,284.2266,235.5,267.2266"
+                 style="stroke: #000000; stroke-width: 2.0;" id="polygon3109" fill="#EEEEEE"/>
+        <text font-size="13" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="76" x="250.5" y="280.2935"
+              id="text3111" font-family="sans-serif" fill="#000000">Iteration 2</text>
+        <polygon points="536,301.3594,546,305.3594,536,309.3594,540,305.3594"
+                 style="stroke: #A80036; stroke-width: 1.0;" id="polygon3113" fill="#A80036"/>
+        <line style="stroke: #A80036; stroke-width: 1.0;" x1="288" x2="542" y1="305.3594" y2="305.3594" id="line3115"/>
+        <text font-size="13" lengthAdjust="spacingAndGlyphs" textLength="196" x="295" y="300.4263" id="text3117"
+              font-family="sans-serif" fill="#000000">[hash('id1nav') = '0AB2BC4...']</text>
+        <polygon points="299,330.4922,289,334.4922,299,338.4922,295,334.4922"
+                 style="stroke: #A80036; stroke-width: 1.0;" id="polygon3119" fill="#A80036"/>
+        <line style="stroke: #A80036; stroke-width: 1.0;" x1="293" x2="547" y1="334.4922" y2="334.4922" id="line3121"/>
+        <text font-size="13" lengthAdjust="spacingAndGlyphs" textLength="212" x="305" y="329.5591" id="text3123"
+              font-family="sans-serif" fill="#000000">[rainbow('0AB2BC4...') = 'Z3KihJ']</text>
+        <rect height="75.3984" style="stroke: #000000; stroke-width: 2.0;" width="349" x="235.5" y="356.625"
+              id="rect3125" fill="none"/>
+        <polygon points="235.5,356.625,356.5,356.625,356.5,363.625,346.5,373.625,235.5,373.625,235.5,356.625"
+                 style="stroke: #000000; stroke-width: 2.0;" id="polygon3127" fill="#EEEEEE"/>
+        <text font-size="13" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="76" x="250.5" y="369.6919"
+              id="text3129" font-family="sans-serif" fill="#000000">Iteration 3</text>
+        <polygon points="536,390.7578,546,394.7578,536,398.7578,540,394.7578"
+                 style="stroke: #A80036; stroke-width: 1.0;" id="polygon3131" fill="#A80036"/>
+        <line style="stroke: #A80036; stroke-width: 1.0;" x1="288" x2="542" y1="394.7578" y2="394.7578" id="line3133"/>
+        <text font-size="13" lengthAdjust="spacingAndGlyphs" textLength="191" x="295" y="389.8247" id="text3135"
+              font-family="sans-serif" fill="#000000">[hash('Z3KihJ') = 'E37C953...']</text>
+        <polygon points="299,419.8906,289,423.8906,299,427.8906,295,423.8906"
+                 style="stroke: #A80036; stroke-width: 1.0;" id="polygon3137" fill="#A80036"/>
+        <line style="stroke: #A80036; stroke-width: 1.0;" x1="293" x2="547" y1="423.8906" y2="423.8906" id="line3139"/>
+        <text font-size="13" lengthAdjust="spacingAndGlyphs" textLength="209" x="305" y="418.9575" id="text3141"
+              font-family="sans-serif" fill="#000000">[rainbow('E37C953...') = 'jz4f8U']</text>
+        <rect height="75.3984" style="stroke: #000000; stroke-width: 2.0;" width="349" x="235.5" y="446.0234"
+              id="rect3143" fill="none"/>
+        <polygon points="235.5,446.0234,356.5,446.0234,356.5,453.0234,346.5,463.0234,235.5,463.0234,235.5,446.0234"
+                 style="stroke: #000000; stroke-width: 2.0;" id="polygon3145" fill="#EEEEEE"/>
+        <text font-size="13" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="76" x="250.5" y="459.0903"
+              id="text3147" font-family="sans-serif" fill="#000000">Iteration 4</text>
+        <polygon points="536,480.1563,546,484.1563,536,488.1563,540,484.1563"
+                 style="stroke: #A80036; stroke-width: 1.0;" id="polygon3149" fill="#A80036"/>
+        <line style="stroke: #A80036; stroke-width: 1.0;" x1="288" x2="542" y1="484.1563" y2="484.1563" id="line3151"/>
+        <text font-size="13" lengthAdjust="spacingAndGlyphs" textLength="191" x="295" y="479.2231" id="text3153"
+              font-family="sans-serif" fill="#000000">[hash('jz4f8U') = '3C3F8B6...']</text>
+        <polygon points="299,509.2891,289,513.2891,299,517.2891,295,513.2891"
+                 style="stroke: #A80036; stroke-width: 1.0;" id="polygon3155" fill="#A80036"/>
+        <line style="stroke: #A80036; stroke-width: 1.0;" x1="293" x2="547" y1="513.2891" y2="513.2891" id="line3157"/>
+        <text font-size="13" lengthAdjust="spacingAndGlyphs" textLength="218" x="305" y="508.356" id="text3159"
+              font-family="sans-serif" fill="#000000">[rainbow('3C3F8B6...') = 'pN51Nt']</text>
+        <rect height="75.3984" style="stroke: #000000; stroke-width: 2.0;" width="349" x="235.5" y="535.4219"
+              id="rect3161" fill="none"/>
+        <polygon points="235.5,535.4219,356.5,535.4219,356.5,542.4219,346.5,552.4219,235.5,552.4219,235.5,535.4219"
+                 style="stroke: #000000; stroke-width: 2.0;" id="polygon3163" fill="#EEEEEE"/>
+        <text font-size="13" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="76" x="250.5" y="548.4888"
+              id="text3165" font-family="sans-serif" fill="#000000">Iteration 5</text>
+        <polygon points="536,569.5547,546,573.5547,536,577.5547,540,573.5547"
+                 style="stroke: #A80036; stroke-width: 1.0;" id="polygon3167" fill="#A80036"/>
+        <line style="stroke: #A80036; stroke-width: 1.0;" x1="288" x2="542" y1="573.5547" y2="573.5547" id="line3169"/>
+        <text font-size="13" lengthAdjust="spacingAndGlyphs" textLength="200" x="295" y="568.6216" id="text3171"
+              font-family="sans-serif" fill="#000000">[hash('pN51Nt') = 'F5D15BF...']</text>
+        <polygon points="299,598.6875,289,602.6875,299,606.6875,295,602.6875"
+                 style="stroke: #A80036; stroke-width: 1.0;" id="polygon3173" fill="#A80036"/>
+        <line style="stroke: #A80036; stroke-width: 1.0;" x1="293" x2="547" y1="602.6875" y2="602.6875" id="line3175"/>
+        <text font-size="13" lengthAdjust="spacingAndGlyphs" textLength="211" x="305" y="597.7544" id="text3177"
+              font-family="sans-serif" fill="#000000">[rainbow('F5D15BF...') = 'Nf5zt9']</text>
+        <rect height="75.3984" style="stroke: #000000; stroke-width: 2.0;" width="349" x="235.5" y="624.8203"
+              id="rect3179" fill="none"/>
+        <polygon points="235.5,624.8203,356.5,624.8203,356.5,631.8203,346.5,641.8203,235.5,641.8203,235.5,624.8203"
+                 style="stroke: #000000; stroke-width: 2.0;" id="polygon3181" fill="#EEEEEE"/>
+        <text font-size="13" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="76" x="250.5" y="637.8872"
+              id="text3183" font-family="sans-serif" fill="#000000">Iteration 6</text>
+        <polygon points="536,658.9531,546,662.9531,536,666.9531,540,662.9531"
+                 style="stroke: #A80036; stroke-width: 1.0;" id="polygon3185" fill="#A80036"/>
+        <line style="stroke: #A80036; stroke-width: 1.0;" x1="288" x2="542" y1="662.9531" y2="662.9531" id="line3187"/>
+        <text font-size="13" lengthAdjust="spacingAndGlyphs" textLength="194" x="295" y="658.02" id="text3189"
+              font-family="sans-serif" fill="#000000">[hash('Nf5zt9') = '51D2662...']</text>
+        <polygon points="299,688.0859,289,692.0859,299,696.0859,295,692.0859"
+                 style="stroke: #A80036; stroke-width: 1.0;" id="polygon3191" fill="#A80036"/>
+        <line style="stroke: #A80036; stroke-width: 1.0;" x1="293" x2="547" y1="692.0859" y2="692.0859" id="line3193"/>
+        <text font-size="13" lengthAdjust="spacingAndGlyphs" textLength="218" x="305" y="687.1528" id="text3195"
+              font-family="sans-serif" fill="#000000">[rainbow('51D2662...') = 'KHyv39']</text>
+        <rect height="75.3984" style="stroke: #000000; stroke-width: 2.0;" width="349" x="235.5" y="714.2188"
+              id="rect3197" fill="none"/>
+        <polygon points="235.5,714.2188,356.5,714.2188,356.5,721.2188,346.5,731.2188,235.5,731.2188,235.5,714.2188"
+                 style="stroke: #000000; stroke-width: 2.0;" id="polygon3199" fill="#EEEEEE"/>
+        <text font-size="13" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="76" x="250.5" y="727.2856"
+              id="text3201" font-family="sans-serif" fill="#000000">Iteration 7</text>
+        <polygon points="536,748.3516,546,752.3516,536,756.3516,540,752.3516"
+                 style="stroke: #A80036; stroke-width: 1.0;" id="polygon3203" fill="#A80036"/>
+        <line style="stroke: #A80036; stroke-width: 1.0;" x1="288" x2="542" y1="752.3516" y2="752.3516" id="line3205"/>
+        <text font-size="13" lengthAdjust="spacingAndGlyphs" textLength="197" x="295" y="747.4185" id="text3207"
+              font-family="sans-serif" fill="#000000">[hash('KHyv39') = '48EF122...']</text>
+        <polygon points="299,777.4844,289,781.4844,299,785.4844,295,781.4844"
+                 style="stroke: #A80036; stroke-width: 1.0;" id="polygon3209" fill="#A80036"/>
+        <line style="stroke: #A80036; stroke-width: 1.0;" x1="293" x2="547" y1="781.4844" y2="781.4844" id="line3211"/>
+        <text font-size="13" lengthAdjust="spacingAndGlyphs" textLength="204" x="305" y="776.5513" id="text3213"
+              font-family="sans-serif" fill="#000000">[rainbow('48EF122...') = 'irC9VI']</text>
+        <polygon points="536,828.6172,546,832.6172,536,836.6172,540,832.6172"
+                 style="stroke: #A80036; stroke-width: 1.0;" id="polygon3215" fill="#A80036"/>
+        <line style="stroke: #A80036; stroke-width: 1.0;" x1="288" x2="542" y1="832.6172" y2="832.6172" id="line3217"/>
+        <text font-size="13" lengthAdjust="spacingAndGlyphs" textLength="145" x="295" y="812.6841" id="text3219"
+              font-family="sans-serif" fill="#000000">Hash du mot de passe</text>
+        <text font-size="13" lengthAdjust="spacingAndGlyphs" textLength="190" x="295" y="827.8169" id="text3221"
+              font-family="sans-serif" fill="#000000">[hash('irC9VI') = '8D4F48D...']</text>
+        <polygon points="800,872.8828,810,876.8828,800,880.8828,804,876.8828"
+                 style="stroke: #A80036; stroke-width: 1.0;" id="polygon3223" fill="#A80036"/>
+        <line style="stroke: #A80036; stroke-width: 1.0;" x1="548" x2="806" y1="876.8828" y2="876.8828" id="line3225"/>
+        <text font-size="13" lengthAdjust="spacingAndGlyphs" textLength="197" x="555" y="856.9497" id="text3227"
+              font-family="sans-serif" fill="#000000">Insertion en base de données :</text>
+        <text font-size="13" lengthAdjust="spacingAndGlyphs" textLength="240" x="555" y="872.0825" id="text3229"
+              font-family="sans-serif" fill="#000000">[pwd='0CW2if', rainbow='8D4F48D...']</text>
+    </g>
+</svg>

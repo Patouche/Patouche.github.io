@@ -5,7 +5,7 @@ relative_permalinks:  true
 #lsi:                  false
 
 # Plugins
-gems: [jekyll-sitemap, sass, jekyll-remote-plantuml]
+gems: [jekyll-sitemap, sass,rouge]
 
 # Setup
 title:                Patouche

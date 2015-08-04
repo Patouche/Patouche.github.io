@@ -1,0 +1,169 @@
+---
+layout: post
+title: Mais c'est quoi une rainbow table ?
+category:
+  - Java
+  - Security
+---
+
+Dans un article précédent, j'avais souvent parler de *rainbow table*. Seulement, mis à part savoir que cela existe, je n'avais pas développé plus que cela ce qu'était vraiment une *rainbow table*. Rétrospective et petite explication ...
+
+## La limite de lookup table
+
+Considérons donc qu'Oscar a trouvé le sel de la précédente application. A partir de ce sel il se construit une lookup table. Seulement voilà, peut-être l'avez vous compris mais il y a une certaine limite au *lookup_table*.
+
+> A bon ? Et quel est cette limite ??
+
+Et bien, c'est simple, cette limite est physique... C'est la taille mémoire !! Ainsi, grâce à une bonne base de données, la *lookup table* va permettre de trouver n'importe quel mot de passe en une fraction de seconde. Mais oui, le gros inconvénient d'une *lookup table* est la taille mémoire que celle ci occupe !!
+
+Pour mieux comprendre le problème posée par les *lookup table*, essayons de calculer sur MySQL la taille mémoire occupée par l'ensemble des mots de passes de moins de 8 caractères ne comprenant que des caractères alphanumériques (majuscule, minusule, chiffre) pour un algorithme de hachage donnée (`sha256`).
+
+En prenant en compte ces conditions là, il faut donc avoir une table ayant les contraintes suivantes :
+
+* Une colone PASSWORD : 8 caratères
+* Une colone SHA_256 : 64 caractères
+
+Afin de simplifier l'écriture par la suite, nous allons adopter les notations suivantes :
+
+* $$\Omega = \{a, b, ..., A, B, ..., Z, 0, 1, ..., 9\}$$ qui représente l'ensemble des caractères des mots de passe.
+* $$P_i = \{p, \textit{length}(p) <= i, \forall k \in [0..(i-1)], p[k] \in \Omega\}$$ qui représente l'ensemble des mots de passe des caractères $$\Omega$$ et de taille inférieure à $$i$$.
+* $$C_{\textit{name}}(i, l)$$ qui réprésente la taille mémoire en octet d'une colonne $$name$$ de taille $$l$$ contenant une string de taille $$i$$.
+* $$TM_i$$ la taille mémoire (en octet) occupée par l'ensemble $$P_i$$.
+
+La taille mémoire peut alors être donnée par la formule suivante :
+
+$$TM_i = \sum_{k=1}^i Card(\Omega)^i \times \left(C_{\textit{SHA_256}}(64, 64) + C_{\textit{PASSWORD}}(k, i)\right)$$
+
+Dans le cas de MySQL, voici un peu à quoi ressemble la suite $$C_{\textit{name}}(i, l)$$ en fonction du type de colonne utilisé :
+
+* `CHAR` : $$C_{\textit{name}}(i, l) = l$$ soit la taille de la colonne
+* `VARCHAR` : $$C_{\textit{name}}(i, l) = i + 1$$ soit la taille de la chaine de caractère stockée + 1
+
+En effectuant le calcul pour l'ensemble des caractères $$\Omega$$, voici un peu les résultats théoriques obtenus :
+
+|-----------------|--------------|
+| Type de colonne | Taille (Go)  |
+|:---------------:|:------------:|
+| CHAR            | 14 880 858   |
+| VARCHAR         | 15 084 149   |
+|=================|==============|
+{: .table .table-bordered}
+
+Pour rester simple, voici une petite ligne de shell afin d'obtenir les résultats pour l'ensemble $$P_8$$ (c'est à dire l'ensemble des mots de passe alphanumérique de moins de 8 caractères) en utilisant des `CHAR` :
+
+{% highlight bash %}
+accu=0 && \
+for i in {1..8} ; do accu=$(( $accu + $(echo "((26+26+10)^$i)*(64+8)" | bc) )); done && \
+echo "$accu octets / $(( $accu / (1024 * 1024 * 1024))) Go";
+{% endhighlight %}
+
+A votre shell !!
+
+> Heu... Donc pour stocker l'ensemble des mots de passe de moins de 8 caractères, il faudra 15 Terras ??
+
+Et oui, c'est exactement ça !! Et encore, c'est un strict minimum du au fait que l'on utilise que des mots de passe *simple* !! Bref, pas besoin d'avoir encore plus mal au crâne, c'est très volumineux ... Si par le plus grand des hasard, vous avez 15 Terras dont vous ne savez pas quoi faire, j'en trouverais probablement un très bon usage ;-) !!
+
+## Dans la pratique ...
+
+Alors, non, personnellement, je n'ai pas 15 Terras de libre... En fait, je n'ai même pas 15 Terras tout court !! Toutefois, pour valider la théorie, rien de tel qu'un peu de pratique ! Pour répondre à une considération pratique, nous allons nous limiter à l'ensemble des mots de passe alphanumérique de moins de 3 caractères. En utilisant un type `CHAR`, la taille mémoire sera alors donné par la formule suivante :
+
+$$\text{TM}_3 = (64 + 3) \times \left(\sum_{i=1}^3 62^i\right)$$
+
+Ce qui nous donne le résultat théorique de `16229678` octets soit environ `15` Mo. Essayons désormais de comparer ce résultat là avec des ceux obtenus sur MySQL. Pour cela, nous allons donc utiliser le schéma suivant :
+
+{% highlight sql %}
+CREATE TABLE LOOKUP_TABLE (
+  PASSWORD CHAR(3) NOT NULL,
+  SHA_256  CHAR(64) NOT NULL
+)
+ENGINE = MyISAM
+DEFAULT CHARACTER SET ascii
+DEFAULT COLLATE ascii_bin
+;
+{% endhighlight %}
+
+Le choix de l'engine et du charset peut sembler étrange. En fait, dans notre cas, le charset `utf8` aurait été une solution plus couteuse que `ascii`. Par ailleurs, MyISAM sera moins consommateur que InnoDB en mémoire. Ainsi, après avoir fait tourner le test [](), voici un peu les résultat obtenus :
+
+{% highlight sql %}
+SELECT
+  LENGTH,
+  COUNT(LENGTH) AS COUNT,
+  POWER((SELECT COUNT(*) FROM LOOKUP_TABLE WHERE LENGTH(PASSWORD) = 1), LENGTH) AS EXPECTED_COUNT
+FROM (SELECT LENGTH(PASSWORD) AS LENGTH FROM LOOKUP_TABLE) AS CARD
+GROUP BY LENGTH;
+{% endhighlight %}
+
+|--------|----------|----------------|
+| LENGTH | COUNT    | EXPECTED_COUNT |
+|:------:|:--------:|:--------------:|
+| 1      | 62       | 62             |
+| 2      | 3 844    | 3 844          |
+| 3      | 238 328  | 238 328        |
+|========|==========|================|
+{: .table .table-bordered}
+
+Ce qui donne les informations suivante d'occupation mémoire :
+
+{% highlight sql %}
+SELECT
+  TABLE_NAME,
+  (DATA_LENGTH + INDEX_LENGTH)/ (1024 * 1024) AS SIZE_IN_MO
+FROM information_schema.TABLES
+WHERE TABLE_NAME = 'LOOKUP_TABLE';
+{% endhighlight %}
+
+|---------------|------------|
+| TABLE_NAME    | SIZE_IN_MO |
+|:-------------:|:----------:|
+| LOOKUP_TABLE  | 15.7098    |
+|===============|============|
+{: .table .table-bordered}
+
+Comme quoi, il arrive parfois que la théorie et la pratique correspondent !!!
+
+## Principe de fonctionnement
+
+Le principe de fonctionnement d'une *rainbow table* est très simple. Toute l'idée réside dans la création d'une fonction qui permet à partir d'une hash de générer un mot de passe. On parle d'une fonction de réduction. Ensuite, il ne s'agit (presque) que de composition !!
+
+Comme vous vous en doutez probablement, la structure de la table n'aura pas changer... Cependant, ce qui change, ce sont les données que l'on va stocker dedans ! Enfin, pas totalement d'ailleurs :-P !
+
+Si l'on nomme $$\textit{reduction}$$ la fonction permettant à partir du résultat de la fonction $$\textit{hash}$$ de créer un mot de passe, la table `REDUCTION` contiendra alors les colonnes suivantes :
+
+* PASSWORD : mot de passe initial
+* REDUCTION : résultat de la composition suivante : $$\textit{hash} \circ \underbrace{\textit{f} \circ \textit{...} \circ\textit{f}}_\text{x fois}$$ avec $$\textit{f} = \textit{reduction} \circ \textit{hash}$$
+
+Pour prendre un exemple, considérons la base de données suivante contenant des `sha256` :
+
+|-------+--------------------------------------------------------------------|
+| USER  | PASSWORD                                                           |
+|:-----:|:------------------------------------------------------------------:|
+| bob   | `2BD806C97F0E00AF1A1FC3328FA763A9269723C8DB8FAC4F93AF71DB186D6E90` |
+| alice | `81B637D8FCD2C6DA6359E6963113A1170DE795E4B725B84D1E0B4CFD9EC58CE9` |
+| carol | `F2D81A260DEA8A100DD517984E53C56A7523D96942A834B9CDC249BD4E8C7AA9` |
+| hugo  | `A23FAA7DFE648A785268264081AB85965FA3893109731F484EE42D8A8467ABB8` |
+|=======|====================================================================|
+{: .table .table-bordered}
+
+Oscar, *the vilain*, cherche à casser les mots de passe de cette base de donnée. Celui ci fait donc la supposition que en général, les mots de passe utilisé sont alphanumériques et font moins de 8 caractères. Comme Oscar n'a pas 15 Terras devant lui, il va utiliser des *rainbow table* afin de trouver les mots de passe de chacun des utilisateurs. Pour cela, il écrit une fonction $$reduction$$ qui a chaque hash, fait correspondre un mot de passe. Voici un schéma pour expliquer la manière dont Oscar remplit sa *rainbow table* :
+
+![Principe de création d'une rainbow table]({{site.url}}/assets/images/2015/07/rainbow-table-creation.png){: .center }
+
+Alors, là, il est à présumer qu'une question se pose...
+
+> A quoi ça peut servir de faire tout ??
+
+
+## Principe de mise en place
+
+Si, pour l'algorithme `sha256`, nous cherchons à générer une *rainbow table* pour les mots de passe de moins de $$i$$ caractères, nous allons faire une considération (peut-être fausse) sur l'algorithme `sha256` afin de trouver une créer la fonction $$reduction$$. En l'occurence, nous allons considérer que, pour l'ensemble $$P_i$$, la répartition des caractères hexadécimaux est équiprobable. C'est à dire que pour un mot de passe $$p$$, la probabilité que le premier caractère de son hash soit un 0, un 1 ou un 2 est identique. Et cela vaut aussi pour le second caractère !
+
+En faisant cette supposition, on peut donc constuire une fonction $$reduction$$ qui à partir d'une chaine de caractère hexadécimale donnée et d'un ensemble de caractère $$\Omega$$ créé un nouveau mot de passe de taille définie. Pour être efficace, il est nécessaire que la composée de cette fonction $$reduction$$ avec $$hash$$ ne soit pas stationnaire.
+
+
+
+
+
+// IN PROGRESS
+On peut alors établir la relation suivante :
+
+$$\forall p \in P_i, \textit{Probabilité}\left(\textit{reduction} \circ \textit{hash}(p) = p\right) = \prod_{k=1}^i \frac{1}{Card(\Omega)}$$

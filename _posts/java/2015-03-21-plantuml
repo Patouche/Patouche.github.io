@@ -1,0 +1,66 @@
+left to right direction
+skinparam packageStyle rect
+
+actor Bob
+database "Base de données" as DB
+
+rectangle Application {
+  :Bob: -right-> (Mot de passe)
+  (Salt) -right-> (Concaténation)
+
+  (Mot de passe) -down-> (Concaténation)
+
+
+  (Concaténation) --> (Hash)
+
+  (Hash) --> DB
+  (Salt) --> DB
+}
+
+
+
+
+
+
+
+
+
+
+
+actor Oscar
+participant Password
+participant Hash
+participant Database
+Oscar -> Password : Définie les mots de passe d'entrées.\nPar exemple : '0CW2if'
+
+group Iteration 1
+Password -> Hash : Hash du mot de passe\n[hash('0CW2if') = 'D63F8F9...']
+Hash -> Password : Création d'un nouveau mot de passe\n[rainbow('D63F8F9...') = 'id1nav']
+end
+group Iteration 2
+Password -> Hash : [hash('id1nav') = '0AB2BC4...']
+Hash -> Password : [rainbow('0AB2BC4...') = 'Z3KihJ']
+end
+group Iteration 3
+Password -> Hash : [hash('Z3KihJ') = 'E37C953...']
+Hash -> Password : [rainbow('E37C953...') = 'jz4f8U']
+end
+group Iteration 4
+Password -> Hash : [hash('jz4f8U') = '3C3F8B6...']
+Hash -> Password : [rainbow('3C3F8B6...') = 'pN51Nt']
+end
+group Iteration 5
+Password -> Hash : [hash('pN51Nt') = 'F5D15BF...']
+Hash -> Password : [rainbow('F5D15BF...') = 'Nf5zt9']
+end
+group Iteration 6
+Password -> Hash : [hash('Nf5zt9') = '51D2662...']
+Hash -> Password : [rainbow('51D2662...') = 'KHyv39']
+end
+group Iteration 7
+Password -> Hash : [hash('KHyv39') = '48EF122...']
+Hash -> Password : [rainbow('48EF122...') = 'irC9VI']
+end
+Password -> Hash : Hash du mot de passe\n[hash('irC9VI') = '8D4F48D...']
+
+Hash -> Database : Insertion en base de données :\n[pwd='0CW2if', rainbow='8D4F48D...']
