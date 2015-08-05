@@ -3,19 +3,127 @@
 ---
 
 // Start variables
+$screen-large:1200px;
+$screen-medium:992px;
 $grey-color-light: #f8f8f8;
 $grey-color-dark: #e7e7e7;
 $p-tag-margins: 10px 0;
+$a-color:rgb(51, 122, 183);
+$table-border-color: $grey-color-dark;
+$code-color:rgb(199, 37, 78);
+$code-bg-color:rgb(249, 242, 244);
+$code-radius: 4px;
+$pre-bg-color:rgb(245, 245, 245);
+$pre-border-color:rgb(204, 204, 204);
+$img-size: 128px;
 
-// End variables
+
+// End of variables
+
+// Mixins
+@mixin clearfix() {
+  &:before, &:after { content: " "; display: table; }
+  &:after { clear: both; }
+}
+
+@mixin side-radius($side, $rad) {
+    border-top-#{$side}-radius: $rad;
+    border-bottom-#{$side}-radius: $rad;
+}
+
+// End of mixins
 
 
-@import "bootstrap/";
+// @import "bootstrap/";
 
 body {
+    margin:0;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color:#333;
+    font-size: 14px;
+    background-color: rgb(255,255,255);
+    // line-height:1.5;
 
-    // font-family: "PT Sans", "Helvetica Neue", Arial, sans-serif;
+    /* Reset */
+    article, aside, details, figcaption, figure, footer, header, main, menu, nav, section,summary {
+        display: block;
+    }
 
+
+    a {
+        color:$a-color;
+        text-decoration:none;
+        &:hover { text-decoration:underline;}
+    }
+
+    h1, h2, h3, h4, h5, h6 { font-weight:500; }
+    h1 { font-size:36px; margin: 1em 0 0.5em 0; }
+    h2 { font-size:30px; }
+    h3 { font-size:25px; }
+    h4 { font-size:20px; }
+    p { margin: 1em 0; }
+
+    code {
+        padding: 2px 4px;
+        font-size: 90%;
+        color: $code-color;
+        background-color: $code-bg-color;
+        border-radius: $code-radius;
+    }
+    pre {
+        display: block;
+        padding: 9.5px;
+        margin: 0 0 10px;
+        font-size: 13px;
+        word-break: break-all;
+        word-wrap: break-word;
+        background-color: $pre-bg-color;
+        border: 1px solid $pre-border-color;
+        border-radius: $code-radius;
+        code {
+            font-size: inherit;
+            color:inherit;
+            padding: 0;
+            white-space: pre-wrap;
+            background-color: transparent;
+            border-radius: $code-radius;
+        }
+    }
+
+    table {
+        width: 100%;
+        max-width: 100%;
+        margin-bottom: 20px;
+        border: 1px solid $table-border-color;
+        border-collapse: collapse;
+        border-spacing: 2px;
+        th, td {
+            padding:8px;
+            text-align: left;
+            border: 1px solid $table-border-color;
+        }
+        thead > tr > th, thead > tr > td {
+            border-bottom-width: 2px;
+        }
+    }
+
+    blockquote {
+        margin:1em 0;
+        padding:0.5em;
+        border-left: 5px solid rgb(230,230,230);
+        p { margin: 0; font-size:1.05em; font-weight:200; }
+    }
+
+    time {
+        display:inline-block;
+        font-style: italic;
+        margin-bottom: 10px;
+    }
+
+
+
+
+    /* Custom */
     img.center {
         margin: 0 auto;
         display: block;
@@ -26,36 +134,107 @@ body {
         border-bottom: $grey-color-dark 1px solid;
 
         a.blog-name {
-            font-size: 2em;
+            font-size: 2.5em;
             display: inline-block;
             padding: 10px 20px;
         }
     }
 
-    table {
-        
+    div.pagination {
+
+        @include clearfix();
+        text-align:center;
+        margin:20px 0;
+
+        ul {
+            padding: 0;
+            display: inline-block;
+            li {
+                display:inline-block;
+                list-style-type:none;
+                float:left;
+                margin:0;
+                padding:0;
+                a {
+                    font-size:1.2em;
+                    position: relative;
+                    padding: 15px 20px;
+                    border: 1px solid rgb(200,200,200);
+                    text-decoration:none;
+                    margin-left: -1px;
+                    line-height: 1.5;
+                    &.disable { color:inherit; }
+
+                }
+                &:first-child a { @include side-radius(left, 4px); }
+                &:last-child a { @include side-radius(right, 4px); }
+            }
+        }
+    }
+
+    ul.tags {
+        margin:0;
+        padding:0;
+        font-size:0.85em;
+
+        li {
+            list-style-type:none;
+            float:left;
+            padding: 0.2em 1.2em;
+            line-height: 1.5em;
+            margin-right: 0.8em;
+            border:1px solid $grey-color-dark;
+            border-radius:1em;
+        }
+
     }
 
     main {
-
+        margin: 0 auto;
         font-size: 1.2em;
 
+        width: 750px;
+        @media (min-width: $screen-medium) { width: 970px; }
+        @media (min-width: $screen-large) { width: 1170px; }
+
         article.post {
+            @include clearfix();
+
             padding-bottom: 1em;
-        }
+            margin: 30px 0;
 
-        p {
-            margin: 1.5em 0 0.7em 0;
-        }
-        blockquote p {
-            font-size: 1.1em;
-            margin: 0;
-        }
+            h1.post-title { margin-top: 0; }
 
-        time {
-            display:inline-block;
-            font-style: italic;
-            margin-bottom: 10px;
+            div.post-image {
+                float:left;
+                width: $img-size + 15px;
+                height: $img-size + 15px;
+                text-align: left;
+                border-right: 1px solid $grey-color-dark;
+
+                img { height:$img-size; width: $img-size; }
+            }
+
+            // Index.html
+            &.post-teaser {
+                div.illustrated {
+                    div.post-excerpt, time, ul.tags {
+                        display:block;
+                        margin-left: $img-size + 2*15px;
+                    }
+                }
+            }
+
+            &.post-detail {
+                margin: 30px 0;
+                div.post-image { border:none; }
+                div.post-title {
+                    @include clearfix();
+                    &.illustrated {
+                        margin-left: $img-size + 2*15px;
+                    }
+                }
+            }
         }
 
         aside {
@@ -67,6 +246,8 @@ body {
                 }
             }
         }
+
+
     }
 
     footer {

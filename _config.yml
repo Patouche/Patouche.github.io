@@ -10,6 +10,7 @@ gems: [jekyll-sitemap, sass,rouge]
 # Setup
 title:                Patouche
 paginate:             5
+paginate_path:        "/page/:num"
 baseurl:              /
 markdown:             kramdown
 highlighter:          pygments
@@ -19,6 +20,7 @@ includes: [_post/java,_post/linux,_post/others,images]
 # Blog section
 blog:
     name:             "// happy coding"
+    missing_img:      /assets/images/missing.png
 
 # Author section
 author:

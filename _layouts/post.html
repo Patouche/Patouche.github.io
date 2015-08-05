@@ -2,24 +2,35 @@
 layout: default
 ---
 
-<article class="post">
-  <h1 class="post-title">{{ page.title }}</h1>
-  <time datetime="{{ page.date | date_to_xmlschema }}" class="page-date">{{ page.date | date_to_string }}</time>
-  {{ content }}
+<article class="post post-detail">
+
+    <div class="post-image">
+        {% if page.image %}
+            <img src="{{ page.image }}" title="{{ post.title | strip_html | replace:'"','' | replace:"'",''  }}" />
+        {% else %}
+            <img src="{{ site.blog.missing_img }}" title="{{ post.title | strip_html | replace:'"','' | replace:"'",''  }}" />
+        {% endif %}
+    </div>
+    <div class="post-title illustrated">
+        <h1 class="post-title">{{ page.title }}</h1>
+        <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date_to_long_string }}</time>
+    </div>
+
+    {{ content }}
 </article>
 
 <aside class="related">
-  <h2>Related Posts</h2>
-  <ul class="related-posts">
-    {% for post in site.related_posts limit:3 %}
-      <li>
-        <h3>
-          <a href="{{ post.url }}">
-            {{ post.title }}
-            <small><time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date_to_string }}</time></small>
-          </a>
-        </h3>
-      </li>
-    {% endfor %}
-  </ul>
+    <h2>Related Posts</h2>
+    <ul class="related-posts">
+        {% for post in site.related_posts limit:3 %}
+        <li>
+            <h3>
+                <a href="{{ post.url }}">
+                    {{ post.title }}
+                    <small><time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date_to_long_string }}</time></small>
+                </a>
+            </h3>
+        </li>
+        {% endfor %}
+    </ul>
 </aside>

@@ -1,11 +1,11 @@
 ---
 layout: post
 title: Stocker <em>(correctement)</em> des mots de passe
-category:
-  - Java
-  - Security
+image: /assets/images/2015/03/21-save-password.png
+tags:
+  - java
+  - security
 ---
-
 
 Un jour, il y a quelques temps maintenant, au cours d'une discussion nocturne avec d'autres personnes (on devait bien être une quizaine dont la moitié était des développeurs), j'ai été un peu surpris d'avoir été le seul à *taper du point sur la table* à la suite d'un mail. Pour que vous compreniez bien ma réaction, voici un extrait de la conversation :
 
@@ -30,7 +30,7 @@ Quand il s'agit de mot de passe, en effet, il faut penser sécurité. Mais avant
 
 En effet, on peut distinguer 2 types de mots de passe :
 
-* Un mot de passe utilisateur mal intentionné
+* Un mot de passe utilisateur
 * Un mot de passe pour une application distante
 
 Pourquoi distinguer ces *types* de mot de passe ? Et bien tout simplement car il ne faut les traiter de la même manière. Dans le premier cas, personne mis à part l'utilisateur n'a à connaitre le mot de passe. Dans le second cas, c'est l'application (et, éventuellement, les administateurs de celle-ci) qui se doit de connaitre le mot de passe. Dans cette article, on ne que du cas des mots de passe utilisateur.
