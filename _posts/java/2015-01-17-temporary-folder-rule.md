@@ -1,9 +1,9 @@
 ---
 layout: post
 title: Les fichiers & les tests unitaires
-category:
+tags:
   - Java
-  - JUnit
+  - Testing
 ---
 
 La gestion des fichiers dans les tests unitaires a toujours été un sujet a traiter avec précaution. En effet, après l'execution d'un test unitaire, il convient de laisser le système dans un état identique à celui de départ. Pourquoi cela ? A mon avis, il y a 2 raisons essentielles à cela :

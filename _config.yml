@@ -5,9 +5,10 @@ relative_permalinks:  true
 #lsi:                  false
 
 # Plugins
-gems: [jekyll-sitemap, sass,rouge]
+gems: [jekyll-sitemap, sass]
 
 # Setup
+url:                  http://patouche.github.io
 title:                Patouche
 paginate:             5
 paginate_path:        "/page/:num"

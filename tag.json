@@ -1,0 +1,24 @@
+---
+layout: null
+---
+{% capture tagcache %}
+    {% assign sep1 = false %}
+    {
+        {% for tag in site.tags %}
+        {% if sep1 %}, {% endif %}
+        {{ tag[0] | downcase | jsonify }} : [
+            {% assign sep2 = false %}
+            {% for post in site.posts %}
+                {% if post.tags contains tag[0] %}
+                    {% if sep2 %}, {% endif %}
+                    {{ post.url | jsonify }}
+                    {% assign sep2 = true %}
+                {% endif %}
+            {% endfor %}
+        ]
+        {% assign sep1 = true %}
+        {% endfor %}
+    }
+{% endcapture %}
+{{ tagcache | strip_newlines | remove:' ' }}
+{% assign tagcache = nil %}
