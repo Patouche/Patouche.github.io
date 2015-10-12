@@ -22,6 +22,7 @@ includes: [_post/java,_post/linux,_post/others,images]
 blog:
     name:             "// happy coding"
     missing_img:      /assets/images/missing.png
+    tag_page:         "/tag/"         
 
 # Author section
 author:

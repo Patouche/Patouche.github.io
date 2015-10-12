@@ -3,8 +3,8 @@ layout: post
 title: Stocker <em>(correctement)</em> des mots de passe
 image: /assets/images/2015/03/21-save-password.png
 tags:
-  - java
-  - security
+  - Java
+  - Security
 ---
 
 Un jour, il y a quelques temps maintenant, au cours d'une discussion nocturne avec d'autres personnes (on devait bien être une quizaine dont la moitié était des développeurs), j'ai été un peu surpris d'avoir été le seul à *taper du point sur la table* à la suite d'un mail. Pour que vous compreniez bien ma réaction, voici un extrait de la conversation :

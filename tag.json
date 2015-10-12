@@ -1,24 +1,33 @@
 ---
-layout: null
+sitemap: false
 ---
-{% capture tagcache %}
+{% capture jsoncache %}
     {% assign sep1 = false %}
     {
         {% for tag in site.tags %}
-        {% if sep1 %}, {% endif %}
-        {{ tag[0] | downcase | jsonify }} : [
-            {% assign sep2 = false %}
-            {% for post in site.posts %}
-                {% if post.tags contains tag[0] %}
-                    {% if sep2 %}, {% endif %}
-                    {{ post.url | jsonify }}
-                    {% assign sep2 = true %}
-                {% endif %}
-            {% endfor %}
-        ]
-        {% assign sep1 = true %}
+            {% capture tagcache %}
+                [
+                    {% assign sep2 = false %}
+                    {% for post in site.posts %}
+                        {% if post.tags contains tag[0] %}
+                            {% if sep2 %}, {% endif %}
+                            {
+                                "url": {{ post.url |jsonify }},
+                                "title": {{ post.title | jsonify }},
+                                "excerpt": {{ post.excerpt | jsonify }},
+                                "image": {% if post.image %}{{ post.image | jsonify }}{% else %}{{ site.blog.missing_img | jsonify }}{% endif %},
+                                "date": {"raw": {{ post.date | jsonify }}, "xmlschema": {{ post.date | jsonify }}, "long_string": {{ post.date | date_to_long_string | jsonify }} },
+                                "tags": {{ post.tags | jsonify }}
+                            }
+                            {% assign sep2 = true %}
+                        {% endif %}
+                    {% endfor %}
+                ]
+            {% endcapture %}
+            {% if sep1 %}, {% endif %} {{ tag[0] | jsonify }} : {{ tagcache | strip_newlines }}
+            {% assign tagcache = nil %}
+            {% assign sep1 = true %}
         {% endfor %}
     }
-{% endcapture %}
-{{ tagcache | strip_newlines | remove:' ' }}
-{% assign tagcache = nil %}
+{% endcapture %}{{ jsoncache }}
+{% assign jsoncache = nil %}

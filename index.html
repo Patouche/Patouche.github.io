@@ -27,7 +27,7 @@ title: Home
                 <div class="post-excerpt">{{ post.excerpt }}</div>
                 <ul class="tags">
                     {% for tag in post.tags %}
-                        <li>{{ tag }}</li>
+                        <li><a href="{{ site.baseurl }}tag/?search={{ tag }}">{{ tag }}</a></li>
                     {% endfor %}
                 </ul>
             </div>
