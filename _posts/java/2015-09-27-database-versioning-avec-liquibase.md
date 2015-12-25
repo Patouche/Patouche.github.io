@@ -1,8 +1,7 @@
 ---
 layout: post
 title: Liquibase et le versionning de base de données
-category:
-  - Java
+image: /assets/images/2015/10/liquibase-logo.png
 tags:
   - Database
   - Java
@@ -220,11 +219,11 @@ A partir du résultat de la commande précédente, il est alors possible de cré
 
 ### Arborescense des *changeLogs* ...
 
-Et oui, je parle bien de plusieurs fichiers *changeLogs* car en réalité, il ne vas pas y avoir qu'un fichier *changeLog* mais plusieurs ! En effet, il vous faudra créé un fichier que l'on appelle généralement le *master changeLog* qui agrège tous vos fichiers *changeLogs* grâca à la balise *include*. 
+Et oui, je parle bien de plusieurs fichiers *changeLogs* car en réalité, il ne vas pas y avoir qu'un fichier *changeLog* mais plusieurs ! En effet, il vous faudra créé un fichier que l'on appelle généralement le *master changeLog* qui agrège tous vos fichiers *changeLogs* grâca à la balise *include*.
 
 Ainsi, pour bien comprendre comment sont organisés vos *changeLogs*, vous pouvez faire un tree sur le dossier `src/main/resources` afin de visualiser l'arborescence de ceux-ci. Voyons 2 manières de gérer les *changeLogs* au sein de votre application.
 
-#### Overkill *changeLogs* 
+#### Overkill *changeLogs*
 
 ![Overkill arborescence]({{ site.baseurl }}assets/images/2015/10/liquibase-changelog-tree-1.png){: .center }
 
@@ -325,7 +324,7 @@ echo -e "Execute command '$1' on database :\n";
 start_date=$(date +%s);
 mvn $LIQUIBASE_OPTS resources:resources liquibase:$1;
 # | awk '/liquibase-maven-plugin/ {flag=1;next} /BUILD\s+SUCCESS/{flag=0} flag {print}';
-echo -e "\nCommand end with status $? into "$(( $(date +%s) - $start_date ))" seconds"; 
+echo -e "\nCommand end with status $? into "$(( $(date +%s) - $start_date ))" seconds";
 
 exit $?;
 
@@ -617,5 +616,4 @@ Enfin, je vous recommande fortement d'avoir des test sur votre couche d'accès a
 
 ## Conclusion
 
-Finalement, Liquibase est un outils performant pour maintenir une synchronisation parfaite entre votre code et vos bases de données au sein d'une équipe. Pour bien comprendre tout l'interet et toute la puissance de l'outils, je vous recommande fortement de l'utiliser sur un de vos projets. Surtout que désormais, vous avec une manière simple de l'intégrer très facilement donc pas d'excuses !! 
-
+Finalement, Liquibase est un outils performant pour maintenir une synchronisation parfaite entre votre code et vos bases de données au sein d'une équipe. Pour bien comprendre tout l'interet et toute la puissance de l'outils, je vous recommande fortement de l'utiliser sur un de vos projets. Surtout que désormais, vous avec une manière simple de l'intégrer très facilement donc pas d'excuses !!

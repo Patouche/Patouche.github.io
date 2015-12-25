@@ -1,4 +1,13 @@
-# A la découverte de Thymeaf !!
+---
+layout: post
+title: A la découverte de Thymeaf !!
+image: /assets/images/2015/11/
+tags:
+  - Database
+  - Java
+  - Maven
+  - Testing
+---
 
 Ces dernières années, on nous a souvent parler d'Ember, de Backbone ou encore d'AngularJS pour réaliser sa couche de présentation... Certes, il est vrai que les SPA (Single Page Application) sont un peu l'avenir du développement front. Toutefois, il me semble important de ne pas oublier les autres solutions existantes. En effet, il arrive fréquement que l'on puisse nous demander de développer (ou d'intégrer) des pages htmls afin de réaliser un backoffice ou une petite application web très simple...
 
@@ -46,19 +55,19 @@ Bien sûr, les solutions de templating en Java sont nombreuses et on peut citer 
 
 Si à mon sens Thymeleaf est aujourd'hui une solution incontournable de par sa simplicité de mise en place et sa facilité d'écriture et de comprehension, il n'en résulte pas moins que certaines de ces solutions sont à surveiller avec attention !
 
-En effet, comme on peut le voir sur le [benchmark](http://fr.slideshare.net/NLJUG/shootout-template-engines-on-the-jvm) réaliser par Jeroen Reijn, Thymeleaf apparait comme une solution peu performante face à ces concurrents.
+En effet, comme on peut le voir sur le [benchmark](http://fr.slideshare.net/NLJUG/shootout-template-engines-on-the-jvm) réaliser par Jeroen Reijn, Thymeleaf apparait comme une solution assez peu performante face à ces concurrents.
 
 // TODO
 
-A cette conclusion, je rajouterais qu'il faut prendre en compte l'interet de l'outils. En effet, si Thymeleaf est peut-être un peu en dessous de ces concurrents par rapport à la générération des pages HTML, il n'en reste pas moins plus simple à utiliser que beaucoup de ses solutions.
+Toutefois, il ne faut pas s'arreter ! En effet, il est important de prendre en compte l'interet de l'outils parce que, Thymeleaf, reste un peu plus simple à utiliser que beaucoup de ses solutions.
 
 Donc, en effet, si vous souhaitez faire un site public à fort traffic, Thymeleaf n'est peut-être pas la solution vers laquelle il faudra se tourner. Mais dans ce genre de cas, une solution de SPA est quand même peut-être une meilleur alternative à toute cette liste (Thymeleaf compris) !
 
 ## La syntaxe Thymealeaf
 
-Bien sûr, comme tout langague, Thymeleaf possède sa propre syntaxe. Toutefois, je vous rassure, cette syntaxe n'est pas compliqué et s'apprend très très facilement dès que l'on a quelques connaissances en HTML. En effet, vous comprendrez rapidement ce dont je parle en découvrant la syntaxe de Thymeleaf ;-) !
+Bien sûr, comme tout langague, Thymeleaf possède sa propre syntaxe. Toutefois, comme je vous l'expliquais précédement, cette syntaxe n'est pas compliqué et s'apprend très facilement dès que l'on a quelques connaissances en HTML. Vous comprendrez rapidement ce dont je parle en découvrant la syntaxe de Thymeleaf ;-) !
 
-Afin de vous faire découvrir la syntaxe Thymeleaf, je vais prendre un exemple simpliste d'une JSP et vous montrer comment la transformer en un superbe template Thymeleaf
+Voici un exemple simpliste d'une JSP afin de vous montrer comment la transformer en un superbe template Thymeleaf
 
 ~~~~html
 Write JSP
@@ -78,7 +87,7 @@ Pour bien commencer, voici une petite liste des principaux attributs qui vous se
 * `th:href="@{/path}"` : Remplace le tag href courant par la valeur de l'url (dans une balise `a`)
 * `th:action="@{/path}"` : Idem que la balise `th:href` pour un formulaire
 * `th:class="${cssClass}"` : Définie la classe CSS selon la variable cssClass
-* `th:each="item : ${items}"` : itère sur un tableau, une liste, une collection ou un iterator
+* `th:each="item : ${items}"` : Itère sur un tableau, une liste, une collection ou un iterator
 
 Bien sûr, je ne cite ici que l'essentiel car il existe bien d'autres attributs qui vont différer pour chacuns des tags HTML existant. Toutefois, pour chaque attributs HTML, l'idée reste toujours la même !!
 
@@ -86,7 +95,11 @@ Bien sûr, je ne cite ici que l'essentiel car il existe bien d'autres attributs 
 
 Avec Thymeleaf, il existe, comme dans tous langagues, quelques expressions qu'il convient de maitriser afin d'avoir une bonne intégration au sein de son HTML.
 
-A partir d'un modele, je vais vous présenter quelques tableaux afin de bien vous expliquez comment tout cela fonctionne ...
+A partir du controlleur suivant, voici un peu le résultat que cela donnerait en utilisant Thymeleaf.
+
+
+
+et le modèle :
 
 ~~~~Java
 public class Post {
@@ -100,8 +113,6 @@ public class Post {
     // Setter & Getter
 }
 ~~~~
-
-et le modèle :
 
 
 #### Texte
