@@ -1,0 +1,44 @@
+---
+layout: post
+title: Spring-Data HATHEOS - Ecrire ses propres méthodes
+category:
+  - Spring-Data
+---
+
+En partant d'un petit spring boot :
+
+{% highlight Java %}
+
+@BasePathAwareController()
+@RequestMapping("{spring.data.rest.base-path}/regions")
+public class EvaluationRestController {
+
+    private final EvaluationRepository evaluationRepository;
+    private final RepositoryEntityLinks entityLinks;
+    private final RepositoryRestProperties repositoryRestProperties;
+
+    /** Class constructor. */
+    @Autowired
+    public EvaluationRestController(final RepositoryEntityLinks entityLinks, final EvaluationRepository evaluationRepository,
+            final RepositoryRestProperties repositoryRestProperties) {
+        this.entityLinks = entityLinks;
+        this.evaluationRepository = evaluationRepository;
+        this.repositoryRestProperties = repositoryRestProperties;
+    }
+
+    @ResponseBody
+    @RequestMapping(method = RequestMethod.GET, value = "/{id}/hotels")
+    public ResponseEntity<Resources<Resource<Hotel>>> hotels(final @PathVariable("id") String id) {
+
+        final List<Resource<Hotel>> hotelResources = hotels.stream()
+                .map(a -> new Resource<>(a, entityLinks.linkToSingleResource(a)))
+                .collect(Collectors.toList());
+
+        final Link link = ControllerLinkBuilder.linkTo(
+                ControllerLinkBuilder.methodOn(RegionRestController.class, repositoryRestProperties.getBasePath()).hotels(id)
+        ).withSelfRel();
+        return ResponseEntity.ok(new Resources<>(hotelResources,link));
+    }
+
+}
+{% endhighlight %}

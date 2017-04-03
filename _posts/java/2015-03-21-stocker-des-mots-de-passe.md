@@ -51,24 +51,7 @@ Généralement, en cryptographie, l'attaquant s'appelle toujours Oscar. Cependan
 * Une personne ne vous aimant pas vous
 * Un groupe de personne dont le but vous est inconnu (ou pas)
 
-La question essentielle à se poser alors est : *A quoi donc Oscar a-t-il bien pu avoir accès ?*
-
-Il convient de différencier différents cas. Mais peu importe la situation, ne restez pas à ne rien faire. Votre bâteau prend l'eau ! Après avoir écopé, il serait bon de colmater la brêche afin que ce genre de chose ne se reproduise pas.
-
-|---------------------------+-------------------------------------------------------------------------------------------+-------------------------------|
-| Type d'accès              | Actions possibles                                                                         | Gravité (échelle de 0 à 100)  |
-|:--------------------------|:------------------------------------------------------------------------------------------|:------------------------------|
-| Base de données           | - Dump de base  | De 0 (votre appli ne l'utilise pas) <br />à 100 (vous stockez des données bancaires) |
-|--------------------------------+-------------------------------------------------------------------------------------------+-------------------------------|
-| Serveurs applicatifs      | - Accès à des données confidentielles<br />- Accès à la base de données<br />- Possibilité d'injecter du code malicieux<br />- ...                                                                                                                     | 100 minimum |
-|---------------------------+-------------------------------------------------------------------------------------------+-------------------------------|
-| Système (user applicatif) | - Idem que précédement                                                                    | 100 minimum |
-|---------------------------+-------------------------------------------------------------------------------------------+-------------------------------|
-| Système (user root)       | Tout                                                                                      | 2012 (comprendre - c'est la fin du monde ... )  |
-|===========================|===========================================================================================|===============================|
-{: .table .table-bordered}
-
-En fonction du cas, n'hésitez pas à pleurer (mais non, faut pas ...). Tentez d'installer MacAffee (heu, non, ça aussi faut pas :-) ). Changez vos mots de passe et demandez à vos utilisateurs de le faire. Faites un audit de sécurité de votre appli. Lisez vos *access logs* et tout ce qu'il y a dans `/var/log/*.log`. Essayez de comprendre ce qui s'est passé, ce qui a été ouvert,... Bref, essayer de faire en sorte que cela ne se reproduise pas.
+Attention donc a qui vous faites confiance ... Et meme plus généralement, ne faites confiance à personne !! En effet, chaque accès doit être nominatif. Eviter donc les comptes `admin` où tout le monde à le mot de passe ! En effet, vous ne saurez jamais où celui-ci pourra finir.
 
 Et encore... Êtes vous conscients qu'*Oscar is in the place* ?
 
@@ -86,7 +69,9 @@ Dans notre cas, nous pouvons considérer cela comme une injection au sens mathé
 
 Cependant, cette approximation faite, bien que très pratique dans notre cas n'est pas vrai. En effet, si nous partons de l'ensemble des mots de passe pouvant exister (ensemble infini) et que nous lui appliquons un `sha1`, nous obtenons une chaine de caractère hexadécimale de 40 caratères (ensemble fini de taille $$16^{40} = 1461501637330902918203684832716283019655932542976$$).
 
-Quand, pour un algorithme données, 2 chaines `X` et `Y` différentes, nous avons `hash(X) = hash(Y)` et `X != Y`, on parle alors de *collision*. Généralement, quand cela se produit, tout le monde commence à crier comme quoi il ne faut plus l'utiliser l'algorithme en question *car une collision à été trouvée* et que c'est *la fin du monde* (ou presque). C'est en partie vrai mais à mon avis, le simple fait de crier sans trop comprendre pourquoi un algorithme n'est plus fiable me semble futile. Par contre, il me semble important de comprendre comment tout cela fonctionne et bien sûr de toujours utiliser la méthode la plus performante à notre disposition.
+Quand, pour un algorithme données, 2 chaines `X` et `Y` différentes, nous avons `hash(X) = hash(Y)` et `X != Y`, on parle alors de *collision*. Généralement, quand cela se produit, tout le monde commence à crier comme quoi il ne faut plus l'utiliser l'algorithme en question *car une collision à été trouvée* et que c'est *la fin du monde* (ou presque).
+
+C'est en partie vrai mais à mon avis, le simple fait de crier sans trop comprendre pourquoi un algorithme n'est plus fiable me semble futile. Par contre, il me semble important de comprendre comment tout cela fonctionne et bien sûr de toujours utiliser la méthode la plus performante à notre disposition.
 
 Pour faire amende honorable, j'étais moi-même le master de la futilité il y a quelques années !!
 
@@ -119,18 +104,14 @@ Ensuite, la création d'une instance de `java.security.MessageDigest` se fait fa
 Ainsi, pour hasher `toto` avec un *SHA-256*, voici un peu à quoi ressemblerait le code :
 
 {% highlight java %}
-public class HashTest {
+public class Main {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(HashTest.class);
-
-    @Test
-    public void hashToto() throws Exception {
+    public static void main(String[] argv) throws Exception {
         MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
         byte[] digest = messageDigest.digest("toto".getBytes(StandardCharsets.UTF_8));
-        // Représentation Hexa avec Guava
-        LOGGER.info("Hash of 'toto' = '{}' using the Guava", BaseEncoding.base16().encode(digest));
-        // Représentation Hexa avec les Apaches Commons (commons-codec)
-        LOGGER.info("Hash of 'toto' = '{}' using the Apache Commons", Hex.encodeHexString(digest));
+        System.out.printf("Hash of 'toto' = '%s' using the Guava\n", BaseEncoding.base16().encode(digest));
+        System.out.printf("Hash of 'toto' = '%s' using the Apache Commons\n", Hex.encodeHexString(digest));
+        System.out.printf("Hash of 'toto' = '%s' using the Java !!\n", Hex.encodeHexString(digest));
     }
 }
 {% endhighlight %}
@@ -142,22 +123,7 @@ Produira les logs suivant :
 [INFO] [f.p.s.HashTest] Hash of 'toto' = '31f7a65e315586ac198bd798b6629ce4903d0899476d5741a9f32e2e521b6a66' using the Apache Commons
 {% endhighlight %}
 
-Afin que l'exemple soit un peu plus parlant, j'y ai ajouté une représentation hexadécimal du tableau de bytes renvoyés par `MessageDigest.digest(byte[])`. Pour faire cela, voici les quelques dépendances maven necesaires :
-
-{% highlight xml %}
-<!-- Guava -->
-<dependency>
-	<groupId>com.google.guava</groupId>
-	<artifactId>guava</artifactId>
-	<version>18.0</version>
-</dependency>
-<!-- Apache commons -->
-<dependency>
-	<groupId>commons-codec</groupId>
-	<artifactId>commons-codec</artifactId>
-	<version>1.10</version>
-</dependency>
-{% endhighlight %}
+Afin que l'exemple soit un peu plus parlant, j'y ai ajouté une représentation hexadécimal du tableau de bytes renvoyés par `MessageDigest.digest(byte[])`.
 
 Vous pourrez trouvez le code dans le test [SampleRetrieveHashAlgorithmsTest](https://github.com/Patouche/soat-samples/blob/master/soat-parent-code/soat-password/src/test/java/fr/patouche/soat/password/SampleRetrieveHashAlgorithmsTest.java#L28)
 
@@ -186,7 +152,6 @@ En effet, il peut exister différents types d'attaque afin de tenter de trouver 
 | abnégation           | `54C7FA4FA09F035C3099DF4F75B92D9FDA01B0930FCB467B6DE6B194E33FC8BF` |
 | azerty               | `F2D81A260DEA8A100DD517984E53C56A7523D96942A834B9CDC249BD4E8C7AA9` |
 | fleurs               | `A23FAA7DFE648A785268264081AB85965FA3893109731F484EE42D8A8467ABB8` |
-| test                 | `9F86D081884C7D659A2FEAA0C55AD015A3BF4F1B2B0B822CD15D6C15B0F00A08` |
 | ....                 | ...                                                                |
 |======================|====================================================================|
 {: .table .table-bordered}
@@ -197,13 +162,8 @@ Que ferait donc la requête SQL suivante ?
 {: .question }
 
 {% highlight sql %}
-select
-    u.LOGIN,
-    l.PASSWORD
-from
-    APP_USER as u
-    join LOOKUP_TABLE as l on l.SHA_256 = u.PASSWORD
-;
+select u.LOGIN, l.PASSWORD
+from APP_USER as u join LOOKUP_TABLE as l on l.SHA_256 = u.PASSWORD;
 {% endhighlight %}
 
 Et bien, vous l'avez probablement compris mais Oscar connait désormais le mot de passe de Carol et d'Hugo !! Pour voir le résultat en pratique, il vous suffit de lancer le test suivant : [SampleLookupTableTest](https://github.com/Patouche/soat-samples/blob/master/soat-parent-code/soat-password/src/test/java/fr/patouche/soat/password/SampleLookupTableTest.java#L42).

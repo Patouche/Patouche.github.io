@@ -1,20 +1,25 @@
 # Permalinks
 permalink:            pretty
-relative_permalinks:  true
+# relative_permalinks:  true
 #safe:                 false
 #lsi:                  false
 
 # Plugins
-gems: [jekyll-sitemap, sass]
+gems:
+  - jekyll-sitemap
+  - sass
+  - jekyll-paginate
+  - rouge
+  - jekyll-seo-tag
 
 # Setup
-url:                  http://patouche.github.io
+url:                  https://patouche.github.io
 title:                Patouche
 paginate:             5
 paginate_path:        "/page/:num"
-baseurl:              /
+baseurl:              ""
 markdown:             kramdown
-highlighter:          pygments
+highlighter:          rouge
 
 includes: [_post/java,_post/linux,_post/others,images]
 
@@ -22,18 +27,18 @@ includes: [_post/java,_post/linux,_post/others,images]
 blog:
     name:             "// happy coding"
     missing_img:      /assets/images/missing.png
-    tag_page:         "/tag/"         
+    tag_page:         "/tag/"
 
 # Author section
 author:
     name:             Patouche
 
 # Remote PlantUML
-plantuml:
-    assets:           images/plantuml-images/
-    type:             png
-    encode:           encode64
-    url:              http://www.plantuml.com/plantuml/{type}/{code}
+# plantuml:
+#     assets:           images/plantuml-images/
+#     type:             png
+#     encode:           encode64
+#     url:              http://www.plantuml.com/plantuml/{type}/{code}
 
 # Sass support
 sass:

@@ -1,0 +1,67 @@
+---
+layout: default
+---
+
+<article class="post post-detail">
+
+    <div class="post-image">
+        {% if page.image %}
+            <img src="{{ page.image }}" title="{{ post.title | strip_html | replace:'"','' | replace:"'",''  }}" />
+        {% else %}
+            <img src="{{ site.blog.missing_img }}" title="{{ post.title | strip_html | replace:'"','' | replace:"'",''  }}" />
+        {% endif %}
+    </div>
+    <div class="post-title illustrated">
+        <h1 class="post-title">{{ page.title }}</h1>
+        <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date_to_long_string }}</time>
+    </div>
+
+    {{ content }}
+
+    <table class="comparator-items">
+      <tr>
+        <th>Name</th>
+        <th>Website</th>
+        <th>Github</th>
+      </tr>
+      {% for item in page.items %}
+        {% if item.name %}
+          <tr>
+            <td>{{ item.name }}</td>
+            <td>
+              {% if item.website -%} <a href="{{ item.website }}">{{ item.website }}</a> {% endif %}
+            </td>
+            <td class="center">
+              {% if item.github %}
+                <a class="github-button" href="{{ item.github }}"
+                  data-size="large" data-show-count="false"
+                  aria-label="Star {{ item.github }} on GitHub">Star</a>
+                <a class="github-button" href="{{ item.github | replace: '/$', '' }}/subscription"
+                  data-size="large" data-show-count="false"
+                  aria-label="Watch {{ item.github }} on GitHub">Watch</a>
+              {% endif %}
+            </td>
+          </tr>
+        {% endif %}
+      {% endfor %}
+    </table>
+
+</article>
+
+<aside class="related">
+    <h2>Related Posts</h2>
+    <ul class="related-posts">
+        {% for post in site.related_posts limit:3 %}
+        <li>
+            <h3>
+                <a href="{{ post.url }}">
+                    {{ post.title }}
+                    <small><time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date_to_long_string }}</time></small>
+                </a>
+            </h3>
+        </li>
+        {% endfor %}
+    </ul>
+</aside>
+
+<script async defer src="https://buttons.github.io/buttons.js"></script>
