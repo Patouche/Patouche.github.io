@@ -102,20 +102,11 @@ body {
     }
   }
 
-  blockquote {
-    margin:1em 0;
-    padding:0.5em;
-    border-left: 5px solid rgb(230,230,230);
-    p { margin: 0; font-size:1.05em; font-weight:200; }
-  }
-
   time {
     display:inline-block;
     font-style: italic;
     margin-bottom: 10px;
   }
-
-  span.js-label { display : none; }
 
 }
 // ##################################################
@@ -136,6 +127,8 @@ body {
     z-index: -1;
     background: $bg-color
   }
+
+  span.js-label, .hidden { display : none; }
 
   header {
     background-color: $grey-color-light;
@@ -161,6 +154,13 @@ body {
       tr td:first-child { font-weight: bold; }
       td.yes { background-color: rgb(151, 255, 151); }
       td.no { background-color: rgb(255, 151, 151); }
+  }
+
+  blockquote {
+    margin:1em 0;
+    padding:0.5em;
+    border-left: 5px solid rgb(230,230,230);
+    p { margin: 0; font-size:1.01em; font-weight:200; font-style: italic; }
   }
 
   div.pagination {
@@ -241,10 +241,10 @@ body {
         float:left;
         width: $img-size + 15px;
         height: $img-size + 15px;
-        text-align: left;
+        text-align: center;
         border-right: 1px solid $grey-color-dark;
 
-        img { height:$img-size; width: $img-size; }
+        img { max-height: $img-size; max-width: $img-size; }
       }
 
       table.comparator-items {

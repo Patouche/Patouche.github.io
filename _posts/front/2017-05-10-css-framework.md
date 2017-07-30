@@ -1,6 +1,6 @@
 ---
 layout: comparator
-title: Comparaison des frameworks CSS
+title: Comparaison de frameworks CSS
 image: /assets/images/2017/css.png
 tags:
   - CSS
@@ -28,7 +28,7 @@ items:
     license:
   - name: Kickoff
     website: http://trykickoff.com/
-    github: https://github.com/trykickoff/kickoff/
+    github: https://github.com/trykickoff/kickoff
     license: MIT
   - name: Bulma
     short:
@@ -76,7 +76,7 @@ items:
   - name: Neutron
     short:
     website: http://neutroncss.com/
-    github: https://github.com/NeutronCSS/neutroncss/
+    github: https://github.com/NeutronCSS/neutroncss
     license:
   - name:
     short:
@@ -86,7 +86,7 @@ items:
   - name: Susy
     short:
     website: http://susy.oddbird.net/
-    github: https://github.com/oddbird/susy/
+    github: https://github.com/oddbird/susy
     license:
   - name: Compass
     short:
